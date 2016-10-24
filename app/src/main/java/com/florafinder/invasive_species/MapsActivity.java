@@ -51,7 +51,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         // Add a marker in Sydney and move the camera
         LatLng duluth = new LatLng(46.7867, -92.1005);
-        mMap.addMarker(new MarkerOptions().position(duluth).title("Marker in Sydney"));
+        mMap.addMarker(new MarkerOptions().position(duluth).title("Marker in Duluth"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(duluth, 15.0f));
     }
 }
