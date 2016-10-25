@@ -7,9 +7,6 @@
         android:id="@+id/action_search"
         android:icon="@mipmap/ic_search"
         android:title="@string/action_search"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_setting"
-        app:showAsAction="never"/>
 </menu>
