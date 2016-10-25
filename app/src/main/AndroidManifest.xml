@@ -15,8 +15,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"
-            android:label="@string/app_name">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -36,8 +35,7 @@
             android:value="AIzaSyAa7M_y-LM7V5_hWvpLiIp7bodt3YahZRI" />
 
         <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:name=".MapsActivity"  />
     </application>
 
 </manifest>
