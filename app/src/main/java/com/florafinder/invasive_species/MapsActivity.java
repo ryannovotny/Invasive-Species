@@ -5,10 +5,12 @@ import android.support.design.widget.NavigationView;
 
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +25,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private DrawerLayout mDrawerLayout;
     private NavigationView navigationView;
+    private ActionBarDrawerToggle mDrawerToggle;
+    private CharSequence mDrawerTitle, mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +43,22 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //*****************************************************************************************
 
         //Initialization of Navigation Drawer stuff
+        mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //This allows the navigation drawer to be called (opened) by tapping the hamburger menu
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, appToolbar, R.string.drawer_open, R.string.drawer_closed) {
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                getActionBar().setTitle(mTitle);
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                getActionBar().setTitle(mDrawerTitle);
+            }
+        };
         navigationView = (NavigationView) findViewById(R.id.navigation_view);
 
         //*****************************************************************************************
