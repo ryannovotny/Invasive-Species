@@ -21,8 +21,6 @@ import android.location.Location;
 import com.google.android.gms.location.LocationRequest;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
 
@@ -42,13 +40,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        // Create Google API Client
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
 
         // Create a LocationRequest object
         mLocationRequest = LocationRequest.create()
@@ -80,23 +71,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(duluth, 15.0f));
     }
 
+
     @Override
     public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-    }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-    }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
 
@@ -108,7 +85,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     private void initialZoom(Location location){
 
-        double zoomLevel = 15.0;
+        float zoomLevel = 15.0f;
         double currentLat = location.getLatitude();
         double currentLong = location.getLongitude();
     }
