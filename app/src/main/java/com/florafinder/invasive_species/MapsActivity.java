@@ -1,9 +1,11 @@
 package com.florafinder.invasive_species;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.widget.ListView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -20,6 +22,10 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        //Creates a toolbar to be placed at the top of the activity
+        Toolbar appToolbar = (Toolbar) findViewById(R.id.activity_toolbar);
+        setSupportActionBar(appToolbar);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
