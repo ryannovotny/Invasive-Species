@@ -110,9 +110,19 @@ public class MapsActivity extends FragmentActivity implements
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
 
+    /**
+     * Updates map on change in location
+     * This change does not zoom
+     * @param location
+     */
     @Override
     public void onLocationChanged(Location location) {
 
+        double currentLat = location.getLatitude();
+        double currentLong = location.getLongitude();
+
+        LatLng latLng = new LatLng(currentLat, currentLong);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Methods
