@@ -45,6 +45,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         //Initialization of Navigation Drawer stuff
         mTitle = mDrawerTitle = getTitle();
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
         //This allows the navigation drawer to be called (opened) by tapping the hamburger menu
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, appToolbar, R.string.drawer_open, R.string.drawer_closed) {
             /** Called when a drawer has settled in a completely closed state. */
