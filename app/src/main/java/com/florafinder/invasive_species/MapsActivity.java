@@ -1,9 +1,13 @@
 package com.florafinder.invasive_species;
 
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
+import android.Manifest;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -40,6 +44,11 @@ public class MapsActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
         // Create GoogleApiClient object
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -52,35 +61,53 @@ public class MapsActivity extends FragmentActivity implements
 
 
     /**
-     * Sets our map
+     * Sets up the map and connects the GoogleApiClient
+     * Method is designed this way to ensure that the map is ready
+     * on location update
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mGoogleApiClient.connect();
     }
 
     /**
-     * Upon connection to location services, zoom to the user's current location
+     * Upon connection to location services
+     * Sets up Location Request Object
+     * Zoom to the user's current location
      * @param bundle
      */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+
+        Log.d("Connected; ", "onConnected executed successfully");
 
         // Create a LocationRequest object
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(30 * 1000) //25 seconds, in milliseconds
                 .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
+
+        //Check for Location Permissions
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED){
+
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+            //Initialize user's location on Connect
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            initialZoom(location);
+        }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
     }
 
     @Override
@@ -89,12 +116,6 @@ public class MapsActivity extends FragmentActivity implements
     }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Methods
-
-    /**
-     * Sets up the map if onMapReady has not been called yet
-     */
-    private void setUpMapIfNeeded(){
-    }
 
     /**
      * The initial zoom to the user's location upon launch
