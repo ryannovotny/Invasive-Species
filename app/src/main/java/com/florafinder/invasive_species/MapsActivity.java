@@ -21,6 +21,7 @@ import android.location.Location;
 import com.google.android.gms.location.LocationRequest;
 
 public class MapsActivity extends FragmentActivity implements
+        OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
@@ -46,13 +47,16 @@ public class MapsActivity extends FragmentActivity implements
                 .addApi(LocationServices.API)
                 .build();
 
-        // Create a LocationRequest object
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(30 * 1000) //25 seconds, in milliseconds
-                .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
-
         Log.d("Map Activity: ", "Map launch successful");
+    }
+
+
+    /**
+     * Sets our map
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
     }
 
     /**
@@ -62,19 +66,11 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onConnected(@Nullable Bundle bundle) {
 
-        try {
-            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-
-            if (location == null) {
-                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-            }
-            else {
-                initialZoom(location);
-            }
-        }
-        catch(SecurityException err){
-            Log.e("Permission Error: ", "Location Permissions Not Given");
-        }
+        // Create a LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(30 * 1000) //25 seconds, in milliseconds
+                .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
     }
 
     @Override
