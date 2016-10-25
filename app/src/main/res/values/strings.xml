@@ -11,4 +11,6 @@
     <string name="nav_sub_menu_item02">Item 2</string>
     <string name="user">Username</string>
     <string name="email">Email</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_closed">Closed</string>
 </resources>
