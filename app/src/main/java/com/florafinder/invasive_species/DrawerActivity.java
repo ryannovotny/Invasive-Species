@@ -45,14 +45,14 @@ public class DrawerActivity extends AppCompatActivity
         findViewById(R.id.add_marker).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(DrawerActivity.this, "Add", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(DrawerActivity.this, "Add", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
         findViewById(R.id.filter).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(DrawerActivity.this, "Filter", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(DrawerActivity.this, "Filter", Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
