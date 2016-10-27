@@ -15,7 +15,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".DrawerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,10 +32,8 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAa7M_y-LM7V5_hWvpLiIp7bodt3YahZRI" />
+            android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".MapsActivity"  />
     </application>
 
 </manifest>
