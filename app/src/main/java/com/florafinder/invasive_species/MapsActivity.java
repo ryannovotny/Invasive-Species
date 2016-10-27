@@ -1,5 +1,6 @@
 package com.florafinder.invasive_species;
 
+import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -36,6 +37,14 @@ public class MapsActivity extends FragmentActivity implements
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+
+    //For resolving connection issues
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+
+    //Data involving permissions
+    private final static String permissionFine = Manifest.permission.ACCESS_FINE_LOCATION;
+    private final static String permissionCoarse = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final int REQUEST_CODE_PERMISSION = 2;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Public.Protected Methods
@@ -89,27 +98,63 @@ public class MapsActivity extends FragmentActivity implements
                 .setInterval(30 * 1000) //25 seconds, in milliseconds
                 .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
 
-        //Check for Location Permissions
-        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+        //Check for Fine Location Permissions
+        if(ContextCompat.checkSelfPermission(this, permissionFine)
                 == PackageManager.PERMISSION_GRANTED){
 
-            Log.d("Permissions:", "Fine and Coarse location permissions granted");
-            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+            //Check for Fine Location Permissions
+            if(ContextCompat.checkSelfPermission(this, permissionCoarse)
+                    == PackageManager.PERMISSION_GRANTED){
 
-            //Initialize user's location on Connect
-            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-            initialZoom(location);
-        }
+                Log.d("Permissions:", "Fine and Coarse location permissions granted");
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+                //Initialize user's location on Connect
+                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                initialZoom(location);
+            }//end if
+
+            else{
+                Log.e("Permissions: ", "Error loading coarse location permission");
+            }// end else
+        }// end if
+        else{
+            Log.e("Permissions: ", "Error loading fine location permission");
+        }// end else
     }
 
     @Override
     public void onConnectionSuspended(int i) {
     }
 
+    /*
+     * Google Play services can resolve some errors it detects.
+     * If the error has a resolution, try sending an Intent to
+     * start a Google Play services activity that can resolve
+     * error.
+     */
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+        if (connectionResult.hasResolution()) {
+            try {
+                // Start an Activity that tries to resolve the error
+                connectionResult.startResolutionForResult(this, CONNECTION_FAILURE_RESOLUTION_REQUEST);
+            /*
+             * Thrown if Google Play services canceled the original
+             * PendingIntent
+             */
+            } catch (IntentSender.SendIntentException e) {
+                // Log the error
+                e.printStackTrace();
+            }
+        } else {
+        /*
+         * If no resolution is available, display a dialog to the
+         * user with the error.
+         */
+            Log.i("Connect Fail", "Location services connection failed with code " + connectionResult.getErrorCode());
+        }
     }
 
     /**
@@ -126,6 +171,31 @@ public class MapsActivity extends FragmentActivity implements
         LatLng latLng = new LatLng(currentLat, currentLong);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
     }
+
+    /**
+     * Handles permission requests during runtime.
+     * This is called when the location permissions aren't already registered as defined on runtime,
+     * meaning the user must enter them
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.e("Req Code", "" + requestCode);
+        if (requestCode == REQUEST_CODE_PERMISSION) {
+            if (grantResults.length == 1 &&
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
+
+                // Success Stuff here
+
+            }
+            else{
+                // Failure Stuff
+            }
+        }
+    }
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Methods
 
@@ -141,4 +211,5 @@ public class MapsActivity extends FragmentActivity implements
         LatLng latLng = new LatLng(currentLat, currentLong);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
     }
+
 }
