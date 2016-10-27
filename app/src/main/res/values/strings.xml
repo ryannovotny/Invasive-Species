@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Invasive Species</string>
     <string name="title_activity_maps">Map</string>
-    
+
+    <!-- BEGIN NAVIGATION DRAWER-->
     <string name="name">NAME</string>
     <string name="email">EMAIL</string>
     <string name="map">Map</string>
@@ -9,10 +10,12 @@
     <string name="nav_subHeading">Fine Tuning</string>
     <string name="toggle">Toggle Grid</string>
     <string name="settings">Settings</string>
-    <string name="title_activity_drawer">DrawerActivity</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
+    <!-- BEGIN DRAWER ACTIVITY -->
+    <string name="title_activity_drawer">DrawerActivity</string>
+
+    <!-- BEGIN ACTION BAR-->
     <string name="action_search">Search</string>
 </resources>
