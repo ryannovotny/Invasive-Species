@@ -1,10 +1,9 @@
 package com.florafinder.invasive_species;
 
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +15,7 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -39,14 +39,21 @@ public class DrawerActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        //Sets up the floating action button and assigns a Snackbar message
-        //to appear when the FAB is clicked
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //Sets up the floating action "menu" for button expansion with minis. After, creates
+        //onClick event handlers for us to implement new actions
+        final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
+        findViewById(R.id.add_marker).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "This will be replaced with an inflater", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Toast toast = Toast.makeText(DrawerActivity.this, "Add", Toast.LENGTH_LONG);
+                toast.show();
+            }
+        });
+        findViewById(R.id.filter).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(DrawerActivity.this, "Filter", Toast.LENGTH_LONG);
+                toast.show();
             }
         });
 
