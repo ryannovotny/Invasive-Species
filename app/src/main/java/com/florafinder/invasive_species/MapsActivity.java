@@ -68,6 +68,7 @@ public class MapsActivity extends FragmentActivity implements
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
 
@@ -94,6 +95,7 @@ public class MapsActivity extends FragmentActivity implements
                 && ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED){
 
+            Log.d("Permissions:", "Fine and Coarse location permissions granted");
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
 
             //Initialize user's location on Connect
