@@ -6,9 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import android.Manifest;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -98,29 +98,7 @@ public class MapsActivity extends FragmentActivity implements
                 .setInterval(30 * 1000) //25 seconds, in milliseconds
                 .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
 
-        //Check for Fine Location Permissions
-        if(ContextCompat.checkSelfPermission(this, permissionFine)
-                == PackageManager.PERMISSION_GRANTED){
-
-            //Check for Fine Location Permissions
-            if(ContextCompat.checkSelfPermission(this, permissionCoarse)
-                    == PackageManager.PERMISSION_GRANTED){
-
-                Log.d("Permissions:", "Fine and Coarse location permissions granted");
-                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-
-                //Initialize user's location on Connect
-                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-                initialZoom(location);
-            }//end if
-
-            else{
-                Log.e("Permissions: ", "Error loading coarse location permission");
-            }// end else
-        }// end if
-        else{
-            Log.e("Permissions: ", "Error loading fine location permission");
-        }// end else
+        requestPermissionsAndZoom();
     }
 
     @Override
@@ -188,11 +166,12 @@ public class MapsActivity extends FragmentActivity implements
             if (grantResults.length == 1 &&
                     grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
 
-                // Success Stuff here
-
+                //Try zoom again after successful request
+                requestPermissionsAndZoom();
             }
             else{
-                // Failure Stuff
+
+                Log.e("Permission", "Request for " + permissions[0] + " failed");
             }
         }
     }
@@ -212,4 +191,45 @@ public class MapsActivity extends FragmentActivity implements
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
     }
 
+    /**
+     * Requests the permissions to get fine and coarse location, and attempts to zoom
+     * to the user's location on successful request
+     */
+    private void requestPermissionsAndZoom(){
+
+        //Check for Fine Location Permissions
+        if(ActivityCompat.checkSelfPermission(this, permissionFine)
+                != PackageManager.PERMISSION_GRANTED){
+
+            Log.e("Permissions: ", "Error loading fine location permission");
+            ActivityCompat.requestPermissions(this, new String[] {permissionFine}, REQUEST_CODE_PERMISSION);
+
+        }// end if
+        else{
+
+            //Check for Fine Location Permissions
+            if(ActivityCompat.checkSelfPermission(this, permissionCoarse)
+                    != PackageManager.PERMISSION_GRANTED) {
+
+                Log.e("Permissions: ", "Error loading coarse location permission");
+                ActivityCompat.requestPermissions(this, new String[]{permissionFine}, REQUEST_CODE_PERMISSION);
+            }//endif
+
+            else{
+
+                Log.d("Permissions:", "Fine and Coarse location permissions granted");
+                LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+
+                //Initialize user's location on Connect
+                Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+
+                if(location != null) {
+                    initialZoom(location);
+                }
+                else{
+                    Log.e("Location", "Zoom location is null");
+                }
+            }//end else
+        }// end else
+    }
 }
