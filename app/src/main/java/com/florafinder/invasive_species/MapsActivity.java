@@ -65,6 +65,12 @@ public class MapsActivity extends FragmentActivity implements
                 .addApi(LocationServices.API)
                 .build();
 
+        // Create a LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(30 * 1000) //25 seconds, in milliseconds
+                .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
+
         Log.d("Map Activity: ", "Map launch successful");
     }
 
@@ -92,13 +98,7 @@ public class MapsActivity extends FragmentActivity implements
 
         Log.d("Connected; ", "onConnected executed successfully");
 
-        // Create a LocationRequest object
-        mLocationRequest = LocationRequest.create()
-                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(30 * 1000) //25 seconds, in milliseconds
-                .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
-
-        requestPermissionsAndZoom();
+        requestPermissionsAndLocation();
     }
 
     @Override
@@ -167,7 +167,7 @@ public class MapsActivity extends FragmentActivity implements
                     grantResults[0] == PackageManager.PERMISSION_GRANTED ) {
 
                 //Try zoom again after successful request
-                requestPermissionsAndZoom();
+                requestPermissionsAndLocation();
             }
             else{
 
@@ -195,7 +195,7 @@ public class MapsActivity extends FragmentActivity implements
      * Requests the permissions to get fine and coarse location, and attempts to zoom
      * to the user's location on successful request
      */
-    private void requestPermissionsAndZoom(){
+    private void requestPermissionsAndLocation(){
 
         //Check for Fine Location Permissions
         if(ActivityCompat.checkSelfPermission(this, permissionFine)
@@ -223,12 +223,21 @@ public class MapsActivity extends FragmentActivity implements
                 //Initialize user's location on Connect
                 Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
-                if(location != null) {
-                    initialZoom(location);
-                }
-                else{
-                    Log.e("Location", "Zoom location is null");
-                }
+                //attempt to get location until one is found
+                int attempt = 1;
+                do{
+                    if (location == null) {
+                        ++attempt;
+                        location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                        Log.i("Location", "Attempt #" + attempt);
+
+                    } else {
+                        initialZoom(location);
+                        Log.i("Location", "Found on attempt #" + attempt);
+                        Log.i("Location", location.toString());
+                    }
+                }while(location == null);
+
             }//end else
         }// end else
     }
