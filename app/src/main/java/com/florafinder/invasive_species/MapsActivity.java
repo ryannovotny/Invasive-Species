@@ -196,6 +196,7 @@ public class MapsActivity extends FragmentActivity implements
 
         LatLng latLng = new LatLng(currentLat, currentLong);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoomLevel));
+        addTileOverlay();
     }
 
     /**
@@ -259,7 +260,7 @@ public class MapsActivity extends FragmentActivity implements
             public URL getTileUrl(int x, int y, int zoom) {
 
     /* Define the URL pattern for the tile images */
-                String s = String.format("http://my.image.server/images/%d/%d/%d.png",
+                String s = String.format("http://i.imgur.com/fjYoUui.png",
                         zoom, x, y);
 
                 if (!checkTileExists(x, y, zoom)) {
@@ -269,6 +270,7 @@ public class MapsActivity extends FragmentActivity implements
                 try {
                     return new URL(s);
                 } catch (MalformedURLException e) {
+                    Log.e("Tile URL", "Tile URL not found.");
                     throw new AssertionError(e);
                 }
             }
@@ -284,6 +286,7 @@ public class MapsActivity extends FragmentActivity implements
                 int maxZoom = 16;
 
                 if ((zoom < minZoom || zoom > maxZoom)) {
+                    Log.d("Tile Zoom", "Out of zoom range for tile visibility");
                     return false;
                 }
 
