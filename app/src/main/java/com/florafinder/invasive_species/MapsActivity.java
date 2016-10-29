@@ -24,10 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import android.location.Location;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.maps.model.TileOverlay;
-import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.android.gms.maps.model.TileProvider;
-import com.google.android.gms.maps.model.UrlTileProvider;
+
 
 import java.net.MalformedURLException;
 import java.net.URL;

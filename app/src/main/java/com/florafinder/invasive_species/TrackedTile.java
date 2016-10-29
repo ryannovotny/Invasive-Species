@@ -32,12 +32,4 @@ public class TrackedTile{
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Methods
-
-    /**
-     * Initializes the colors the tiles can use
-     */
-    private void initColors(){
-
-
-    }
 }
