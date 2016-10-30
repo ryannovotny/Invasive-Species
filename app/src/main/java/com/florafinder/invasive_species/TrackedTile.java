@@ -11,7 +11,7 @@ import android.support.v4.content.ContextCompat;
  * Created by Owner on 10/28/2016.
  */
 
-public class TrackedTile{
+public final class TrackedTile{
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Data
