@@ -12,6 +12,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -42,4 +48,6 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.10.1'
     compile 'com.android.support:multidex:1.0.1'
     testCompile 'junit:junit:4.12'
+    compile 'com.android.support:multidex:1.0.1'
 }
+
