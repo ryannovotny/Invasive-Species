@@ -1,6 +1,7 @@
 package com.florafinder.invasive_species;
 
 import android.*;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -167,14 +168,14 @@ public class DrawerActivity extends AppCompatActivity
             Toast toast = Toast.makeText(this, "Open the map fragment activity", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_species) {
-            Toast toast = Toast.makeText(this, "Open the list view of all species", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent intentSpecies = new Intent(DrawerActivity.this, SpeciesActivity.class);
+            startActivity(intentSpecies);
         } else if (id == R.id.nav_toggle) {
-            Toast toast = Toast.makeText(this, "Toggle the grid overlay on or off", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Toggle the overlay view", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_settings) {
-            Toast toast = Toast.makeText(this, "Open the settings fragment", Toast.LENGTH_SHORT);
-            toast.show();
+            Intent intentSettings = new Intent(DrawerActivity.this, SettingsActivity.class);
+            startActivity(intentSettings);
         }
 
         //Closes the drawer when an option is selected
