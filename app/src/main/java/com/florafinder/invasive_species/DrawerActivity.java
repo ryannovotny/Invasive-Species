@@ -126,10 +126,12 @@ public class DrawerActivity extends AppCompatActivity
     }
 
     /**
-     * When the app is paused, stop requesting location updates
+     * When the app is resumed, start requesting location updates and re-zoom
      */
     @Override
     protected void onResume(){
+        super.onResume();
+        Log.d("Lifecycle","Map activity resumed");
         requestPermissionsAndLocation();
     }
 
@@ -138,6 +140,8 @@ public class DrawerActivity extends AppCompatActivity
      */
     @Override
     protected void onPause(){
+        super.onPause();
+        Log.d("Lifecycle","Map activity paused");
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
@@ -146,6 +150,8 @@ public class DrawerActivity extends AppCompatActivity
      */
     @Override
     protected void onStop(){
+        super.onStop();
+        Log.d("Lifecycle","Map activity stopped");
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
