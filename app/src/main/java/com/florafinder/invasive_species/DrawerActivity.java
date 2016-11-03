@@ -2,6 +2,7 @@ package com.florafinder.invasive_species;
 
 import android.*;
 import android.content.Intent;
+import android.app.FragmentManager;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.common.ConnectionResult;
@@ -32,22 +34,31 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener, OnMapLongClickListener {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Data
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private Circle mCircle;
+    private Marker mMarker;
 
     //For resolving connection issues
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -105,23 +116,25 @@ public class DrawerActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
         //***************************************END***********************************************
 
         //******************************LOCATION HANDLING START************************************
         // Create GoogleApiClient object
-                mGoogleApiClient = new GoogleApiClient.Builder(this)
-                        .addConnectionCallbacks(this)
-                        .addOnConnectionFailedListener(this)
-                        .addApi(LocationServices.API)
-                        .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
 
-                // Create a LocationRequest object
-                mLocationRequest = LocationRequest.create()
-                        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                        .setInterval(30 * 1000) //25 seconds, in milliseconds
-                        .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
+        // Create a LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(30 * 1000) //25 seconds, in milliseconds
+                .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
 
-                Log.d("Map Activity: ", "Map launch successful");
+        Log.d("Map Activity: ", "Map launch successful");
         //***************************************END***********************************************
     }
 
@@ -204,7 +217,7 @@ public class DrawerActivity extends AppCompatActivity
             Intent intentSpecies = new Intent(DrawerActivity.this, SpeciesActivity.class);
             startActivity(intentSpecies);
         } else if (id == R.id.nav_toggle) {
-            Toast toast = Toast.makeText(this, "Toggle the overlay view", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Toggle the grid overlay on or off", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_settings) {
             Intent intentSettings = new Intent(DrawerActivity.this, SettingsActivity.class);
@@ -217,6 +230,23 @@ public class DrawerActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    public void onMapLongClick(LatLng point) {
+        CircleOptions circleOptions = new CircleOptions()
+                .center(point)   //set center
+                .radius(50)   //set radius in meters
+                .fillColor(0x40ff0000)  //semi-transparent
+                .strokeColor(Color.BLUE)
+                .strokeWidth(5);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(point)
+                .title("Invasive Species")
+                .snippet("Species lv")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        mCircle = mMap.addCircle(circleOptions);
+        mMarker = mMap.addMarker(markerOptions);
+
+    }
     /**
     * Sets up the map and connects the GoogleApiClient
     * Method is designed this way to ensure that the map is ready
@@ -225,6 +255,7 @@ public class DrawerActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+        mMap.setOnMapLongClickListener(this);
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
@@ -277,8 +308,20 @@ public class DrawerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Updates map on change in location
+     * This change does not zoom
+     * @param location
+     */
     @Override
-    public void onLocationChanged(Location location) {}
+    public void onLocationChanged(Location location) {
+
+        double currentLat = location.getLatitude();
+        double currentLong = location.getLongitude();
+
+        LatLng latLng = new LatLng(currentLat, currentLong);
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
 
     /**
      * Handles permission requests during runtime.
