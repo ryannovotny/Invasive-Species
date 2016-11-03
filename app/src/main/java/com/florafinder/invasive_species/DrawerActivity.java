@@ -131,8 +131,11 @@ public class DrawerActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        Log.d("Lifecycle","Map activity resumed");
-        requestPermissionsAndLocation();
+
+        if(mMap != null){
+            Log.d("Lifecycle", "Map activity resumed");
+            requestPermissionsAndLocation();
+        }
     }
 
     /**
