@@ -125,6 +125,30 @@ public class DrawerActivity extends AppCompatActivity
         //***************************************END***********************************************
     }
 
+    /**
+     * When the app is paused, stop requesting location updates
+     */
+    @Override
+    protected void onResume(){
+        requestPermissionsAndLocation();
+    }
+
+    /**
+     * When the app is paused, stop requesting location updates
+     */
+    @Override
+    protected void onPause(){
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+    }
+
+    /**
+     * When the app is stopped, stop requesting location updates
+     */
+    @Override
+    protected void onStop(){
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+    }
+
     //Overrides system's onBackPress (tapping the back button on the phone) to simply
     //close the drawer if it is open
     @Override
