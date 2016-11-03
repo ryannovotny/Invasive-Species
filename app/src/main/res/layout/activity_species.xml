@@ -30,7 +30,7 @@
                 android:layout_below="@+id/thumbnail"
                 android:maxLines="3"
                 android:padding="8dp"
-                android:text="@string/species"
+                android:text="@string/buckthorn"
                 android:textColor="#222"
                 android:textStyle="bold"
                 android:textSize="22dp" />
@@ -41,7 +41,7 @@
                 android:layout_below="@+id/title"
                 android:maxLines="3"
                 android:padding="8dp"
-                android:text="@string/description"
+                android:text="@string/buckthorn_info"
                 android:textColor="#666"
                 android:textSize="14dp" />
 
