@@ -229,20 +229,20 @@ public class DrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
+    //make the circle be able to pop up when user clicks on the map
     @Override
     public void onMapLongClick(LatLng point) {
         CircleOptions circleOptions = new CircleOptions()
                 .center(point)   //set center
-                .radius(50)   //set radius in meters
+                .radius(100)   //set radius in meters
                 .fillColor(0x40ff0000)  //semi-transparent
                 .strokeColor(Color.BLUE)
                 .strokeWidth(5);
         MarkerOptions markerOptions = new MarkerOptions()
-                .position(point)
+                .position(point) // set marker at the center of the circle
                 .title("Invasive Species")
                 .snippet("Species lv")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));//marker color
         mCircle = mMap.addCircle(circleOptions);
         mMarker = mMap.addMarker(markerOptions);
 
