@@ -203,12 +203,17 @@ public class DrawerActivity extends AppCompatActivity
     public void onMapLongClick(LatLng point) {
         CircleOptions circleOptions = new CircleOptions()
                 .center(point)   //set center
-                .radius(500)   //set radius in meters
+                .radius(50)   //set radius in meters
                 .fillColor(0x40ff0000)  //semi-transparent
                 .strokeColor(Color.BLUE)
                 .strokeWidth(5);
-
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(point)
+                .title("Invasive Species")
+                .snippet("Species lv")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         mCircle = mMap.addCircle(circleOptions);
+        mMarker = mMap.addMarker(markerOptions);
 
     }
     /**
