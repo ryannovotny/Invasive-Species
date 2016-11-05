@@ -45,6 +45,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
@@ -57,7 +59,7 @@ public class DrawerActivity extends AppCompatActivity
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    private Circle mCircle;
+    private Polygon mSquare;
     private Marker mMarker;
 
     //For resolving connection issues
@@ -232,18 +234,23 @@ public class DrawerActivity extends AppCompatActivity
     //make the circle be able to pop up when user clicks on the map
     @Override
     public void onMapLongClick(LatLng point) {
-        CircleOptions circleOptions = new CircleOptions()
-                .center(point)   //set center
-                .radius(100)   //set radius in meters
+        String s = point.toString();
+        String[] latLng = s.substring(10, s.length() - 1).split(",");
+        String sLat = latLng[0];
+        String sLng = latLng[1];
+        double dLat = Double.parseDouble(sLat);
+        double dLng = Double.parseDouble(sLng);
+        PolygonOptions squareOpt = new PolygonOptions()
+                .add(point, new LatLng(dLat,dLng+.001), new LatLng(dLat+.0005,dLng+.001), new LatLng(dLat+.0005,dLng)) //set size
                 .fillColor(0x40ff0000)  //semi-transparent
                 .strokeColor(Color.BLUE)
                 .strokeWidth(5);
         MarkerOptions markerOptions = new MarkerOptions()
-                .position(point) // set marker at the center of the circle
+                .position(new LatLng(dLat+.00025,dLng+.0005)) // set marker at the center of the circle
                 .title("Invasive Species")
-                .snippet("Species lv")
+                .snippet(dLat+"/"+dLng)
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));//marker color
-        mCircle = mMap.addCircle(circleOptions);
+        mSquare = mMap.addPolygon(squareOpt);
         mMarker = mMap.addMarker(markerOptions);
 
     }
