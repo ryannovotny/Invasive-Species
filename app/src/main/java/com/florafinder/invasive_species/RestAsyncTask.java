@@ -26,9 +26,13 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     ////////////////////////////////////////////////////////////////////////////////////////
     //                           Private Data
 
-    //will be used for deciding return response
-    private URL url;
+    private Object obj;     //Will be recast based on url and command
     private String command;
+    private URL url;
+
+    public RestAsyncTask(Object obj){
+        this.obj = obj;
+    }
 
     @Override
     protected String doInBackground(String... params) {
@@ -97,10 +101,12 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     }
 
     /**
-     * Handles return results based on the url of the command
-     * and the type of command
+     * Handles results based on url and command
      * @param result the result from the query
      */
     protected void onPostExecute(String result) {
+
     }
+
+
 }
