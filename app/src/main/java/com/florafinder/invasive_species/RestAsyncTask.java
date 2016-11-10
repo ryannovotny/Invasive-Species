@@ -23,6 +23,13 @@ import java.net.URL;
 
 public class RestAsyncTask extends AsyncTask<String, Integer, String> {
 
+    ////////////////////////////////////////////////////////////////////////////////////////
+    //                           Private Data
+
+    //will be used for deciding return response
+    private URL url;
+    private String command;
+
     @Override
     protected String doInBackground(String... params) {
 
@@ -32,7 +39,8 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
         Log.d("Debug:", "Attempting to connect to: " + params[0]);
 
         try {
-            URL url = new URL( params[0] );
+            url = new URL( params[0] );
+            command = params[1];
             serverConnection = (HttpURLConnection) url.openConnection();
             serverConnection.setRequestMethod(params[1]);
             if (params[1].equals("POST") ||
@@ -89,10 +97,10 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     }
 
     /**
-     *
+     * Handles return results based on the url of the command
+     * and the type of command
      * @param result the result from the query
      */
     protected void onPostExecute(String result) {
     }
-
 }
