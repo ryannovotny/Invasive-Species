@@ -108,5 +108,16 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
 
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////
+    //                           Private Methods
+    //                  Will handle responses to onPostExecute
+    ////////////////////////////////////////////////////////////////////////////////////////
 
+    private void updateMapGrids(){}
+
+    private void updateUserData(){}
+
+    private void getUserData(){}
+
+    private void getSpeciesData(){}
 }
