@@ -254,6 +254,28 @@ public class DrawerActivity extends AppCompatActivity
         mMarker = mMap.addMarker(markerOptions);
 
     }
+
+
+    public void grid(){
+        double i;
+        double j;
+        double dLat = 46.805993, dLng = -92.100449;
+        for(i = 0; i < .0105; i+=.0005) {
+            for(j= 0; j < .013; j+= .001) {
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat + i, dLng + j),
+                                new LatLng(dLat + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + j)) //set size
+                        //.fillColor(0x40ff0000)// color red
+                        //.fillColor(0x400ff000)// color green
+                        .fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLUE)
+                        .strokeWidth(1);
+                mSquare = mMap.addPolygon(squareOpt);
+            }
+        }
+    }
     /**
     * Sets up the map and connects the GoogleApiClient
     * Method is designed this way to ensure that the map is ready
@@ -262,7 +284,8 @@ public class DrawerActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        mMap.setOnMapLongClickListener(this);
+       // mMap.setOnMapLongClickListener(this);
+        grid();
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
