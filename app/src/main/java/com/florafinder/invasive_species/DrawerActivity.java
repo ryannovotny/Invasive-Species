@@ -70,6 +70,12 @@ public class DrawerActivity extends AppCompatActivity
     private final static String permissionCoarse = android.Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int REQUEST_CODE_PERMISSION = 2;
 
+    //Client-Server data
+    private final static String SERVER_IP = "192.168.2.3";
+    private final static int SERVER_PORT = 4321;
+    private final static String MAP_DIRECTORY = "/mapdata";
+    private final static String USER_DIRECTORY = "/userdata";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
