@@ -135,31 +135,32 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
             GoogleMap mMap = (GoogleMap) obj;
             Log.d("/mapdata GET", "Succesfully recast object to Google Map");
 
-            JSONArray jsonArray = new JSONArray(result);
-            //Iterate through JSONArray and add tiles
-            //WILL BE UPDATE LATER TO INCLUDE UPDATES TO EXISTING TILES
-            for(int i = 0; i < jsonArray.length(); ++i){
+            //Create JSONArray from result
+            JSONObject jsonObject = new JSONObject(result);
+            JSONArray jsonArray = (JSONArray)jsonObject.get("tiles");
+
+            /**terate through JSONArray and add tiles
+             * Starts at 1 to ignore initTile
+             * WILL BE UPDATE LATER TO INCLUDE UPDATES TO EXISTING TILES
+             */
+            for(int i = 1; i < jsonArray.length(); ++i){
 
                 JSONObject tile = (JSONObject) jsonArray.get(i);
-                double dLat = (double) tile.get("lat");
-                double dLng = (double) tile.get("lang");
 
-                //Check if tiles is valid
-                if(dLat != -1 && dLng != -1) {
-                    PolygonOptions squareOpt = new PolygonOptions()
-                            .add(new LatLng(dLat, dLng),
-                                    new LatLng(dLat, dLng + .001),
-                                    new LatLng(dLat + .0005, dLng + .001),
-                                    new LatLng(dLat + .0005, dLng)) //set size
-                            .fillColor(0x40ff0000)// color red
-                            //.fillColor(0x400ff000)// color green
-                            //.fillColor(0x00000000)// semi-transparent
-                            .strokeColor(Color.BLUE)
-                            .strokeWidth(1);
+                Double dLat = (Double) tile.get("lat");
+                Double dLng = (Double) tile.get("lang");
+
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat, dLng),
+                                new LatLng(dLat, dLng + .001),
+                                new LatLng(dLat + .0005, dLng + .001),
+                                new LatLng(dLat + .0005, dLng)) //set size
+                        .fillColor(0x40ff0000)// color red
+                        //.fillColor(0x400ff000)// color green
+                        //.fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLUE)
+                        .strokeWidth(1);
                     mMap.addPolygon(squareOpt);
-
-                    Log.i("/mapdata GET", "Tile added at: " + dLat + ", " + dLng);
-                }
             }
 
         }
