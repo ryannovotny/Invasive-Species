@@ -72,7 +72,7 @@ public class DrawerActivity extends AppCompatActivity
 
     //Client-Server data
     private final static String SERVER_IP = "192.168.2.3";
-    private final static int SERVER_PORT = 4321;
+    private final static String SERVER_PORT = ":4321";
     private final static String MAP_DIRECTORY = "/mapdata";
     private final static String USER_DIRECTORY = "/userdata";
 
@@ -263,24 +263,8 @@ public class DrawerActivity extends AppCompatActivity
 
 
     public void grid(){
-        double i;
-        double j;
-        double dLat = 46.805993, dLng = -92.100449;
-        for(i = 0; i < .0105; i+=.0005) {
-            for(j= 0; j < .013; j+= .001) {
-                PolygonOptions squareOpt = new PolygonOptions()
-                        .add(new LatLng(dLat + i, dLng + j),
-                                new LatLng(dLat + i, dLng + .001 + j),
-                                new LatLng(dLat + .0005 + i, dLng + .001 + j),
-                                new LatLng(dLat + .0005 + i, dLng + j)) //set size
-                        //.fillColor(0x40ff0000)// color red
-                        //.fillColor(0x400ff000)// color green
-                        .fillColor(0x00000000)// semi-transparent
-                        .strokeColor(Color.BLUE)
-                        .strokeWidth(1);
-                mSquare = mMap.addPolygon(squareOpt);
-            }
-        }
+        RestAsyncTask asyncTask = new RestAsyncTask(mMap);
+        asyncTask.execute("http://" + SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
     }
     /**
     * Sets up the map and connects the GoogleApiClient
