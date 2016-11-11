@@ -36,8 +36,9 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     private String command;
     private URL url;
 
-    private final static String MAP_DIRECTORY = "http://192.168.2.3:4321/mapdata";
-    private final static String USER_DIRECTORY = "http://192.168.2.3:4321/userdata";
+    private final static String IP = "0.0.0.0";
+    private final static String MAP_DIRECTORY = "http://"+IP+":4321/mapdata";
+    private final static String USER_DIRECTORY = "http://"+IP+":4321/userdata";
 
     public RestAsyncTask(Object obj){
         this.obj = obj;
