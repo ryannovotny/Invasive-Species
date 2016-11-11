@@ -160,7 +160,7 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
                         //.fillColor(0x00000000)// semi-transparent
                         .strokeColor(Color.BLUE)
                         .strokeWidth(1);
-                    mMap.addPolygon(squareOpt);
+                mMap.addPolygon(squareOpt);
             }
 
         }
