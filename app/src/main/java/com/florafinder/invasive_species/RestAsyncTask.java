@@ -1,8 +1,14 @@
 package com.florafinder.invasive_species;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.PolygonOptions;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,6 +35,9 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     private Object obj;     //Will be recast based on url and command
     private String command;
     private URL url;
+
+    private final static String MAP_DIRECTORY = "http://192.168.2.3:4321/mapdata";
+    private final static String USER_DIRECTORY = "http://192.168.2.3:4321/userdata";
 
     public RestAsyncTask(Object obj){
         this.obj = obj;
@@ -106,6 +115,10 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
      */
     protected void onPostExecute(String result) {
 
+        Log.d("postExe", "URL: " + url + "\ncommand: " + command);
+        if(url.toString().equals(MAP_DIRECTORY) && command.equals("GET")){
+            updateMapGrids(result);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +126,48 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     //                  Will handle responses to onPostExecute
     ////////////////////////////////////////////////////////////////////////////////////////
 
-    private void updateMapGrids(){}
+    /**
+     * Updates the grids on the Google Map
+     * @param result JSON returned from server
+     */
+    private void updateMapGrids(String result){
+        try {
+            GoogleMap mMap = (GoogleMap) obj;
+            Log.d("/mapdata GET", "Succesfully recast object to Google Map");
+
+            JSONArray jsonArray = new JSONArray(result);
+            //Iterate through JSONArray and add tiles
+            //WILL BE UPDATE LATER TO INCLUDE UPDATES TO EXISTING TILES
+            for(int i = 0; i < jsonArray.length(); ++i){
+
+                JSONObject tile = (JSONObject) jsonArray.get(i);
+                double dLat = (double) tile.get("lat");
+                double dLng = (double) tile.get("lang");
+
+                //Check if tiles is valid
+                if(dLat != -1 && dLng != -1) {
+                    PolygonOptions squareOpt = new PolygonOptions()
+                            .add(new LatLng(dLat, dLng),
+                                    new LatLng(dLat, dLng + .001),
+                                    new LatLng(dLat + .0005, dLng + .001),
+                                    new LatLng(dLat + .0005, dLng)) //set size
+                            .fillColor(0x40ff0000)// color red
+                            //.fillColor(0x400ff000)// color green
+                            //.fillColor(0x00000000)// semi-transparent
+                            .strokeColor(Color.BLUE)
+                            .strokeWidth(1);
+                    mMap.addPolygon(squareOpt);
+
+                    Log.i("/mapdata GET", "Tile added at: " + dLat + ", " + dLng);
+                }
+            }
+
+        }
+        catch (JSONException err){
+            Log.e("/mapdata GET", "Error parsing JSON");
+            err.printStackTrace();
+        }
+    }
 
     private void updateUserData(){}
 
