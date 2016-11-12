@@ -19,7 +19,7 @@ import java.util.List;
 
 public class RecyclerViewActivity extends Activity {
 
-    private List<InvasiveSpecies> species;
+    private List<Species> persons;
     private RecyclerView rv;
 
     @Override
@@ -39,14 +39,14 @@ public class RecyclerViewActivity extends Activity {
     }
 
     private void initializeData(){
-        species = new ArrayList<>();
-        species.add(new InvasiveSpecies("Buckthorn", "23 years old", R.drawable.buckthorn));
-        species.add(new InvasiveSpecies("Creeping Charlie", "25 years old", R.drawable.charlie));
-        species.add(new InvasiveSpecies("Poison Hemlock", "35 years old", R.drawable.hemlock));
+        persons = new ArrayList<>();
+        persons.add(new Species("Emma Wilson", "23 years old", R.drawable.buckthorn));
+        persons.add(new Species("Lavery Maiss", "25 years old", R.drawable.british));
+        persons.add(new Species("Lillie Watts", "35 years old", R.drawable.thistle));
     }
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(species);
+        RVAdapter adapter = new RVAdapter(persons);
         rv.setAdapter(adapter);
     }
 }

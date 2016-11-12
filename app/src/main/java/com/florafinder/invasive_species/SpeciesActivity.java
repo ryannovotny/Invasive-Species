@@ -1,35 +1,28 @@
 package com.florafinder.invasive_species;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 
-/**
- * Created by Ryan on 11/2/16.
- */
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class SpeciesActivity extends AppCompatActivity {
+public class SpeciesActivity extends Activity {
 
-    TextView speciesName;
-    TextView speciesDescription;
-    ImageView speciesPhoto;
+    TextView personName;
+    TextView personAge;
+    ImageView personPhoto;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_species);
 
-        speciesName = (TextView)findViewById(R.id.person_name);
-        speciesDescription = (TextView)findViewById(R.id.person_age);
-        speciesPhoto = (ImageView)findViewById(R.id.person_photo);
+        setContentView(R.layout.species_activity);
+        personName = (TextView)findViewById(R.id.person_name);
+        personAge = (TextView)findViewById(R.id.person_age);
+        personPhoto = (ImageView)findViewById(R.id.person_photo);
 
-        speciesName.setText("Buckthorn");
-        speciesDescription.setText("23 years old");
-        speciesPhoto.setImageResource(R.drawable.buckthorn);
+        personName.setText("Emma Wilson");
+        personAge.setText("23 years old");
+        personPhoto.setImageResource(R.drawable.buckthorn);
     }
 }
