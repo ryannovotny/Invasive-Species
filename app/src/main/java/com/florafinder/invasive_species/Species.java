@@ -7,12 +7,12 @@ package com.florafinder.invasive_species;
 
 class Species {
     String name;
-    String age;
+    String description;
     int photoId;
 
-    Species(String name, String age, int photoId) {
+    Species(String name, String description, int photoId) {
         this.name = name;
-        this.age = age;
+        this.description = description;
         this.photoId = photoId;
     }
 }

@@ -14,28 +14,30 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import static com.florafinder.invasive_species.R.string.species;
+
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
     public static class PersonViewHolder extends RecyclerView.ViewHolder {
 
         CardView cv;
-        TextView personName;
-        TextView personAge;
-        ImageView personPhoto;
+        TextView speciesName;
+        TextView speciesDescription;
+        ImageView speciesPhoto;
 
         PersonViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
-            personName = (TextView)itemView.findViewById(R.id.person_name);
-            personAge = (TextView)itemView.findViewById(R.id.person_age);
-            personPhoto = (ImageView)itemView.findViewById(R.id.person_photo);
+            speciesName = (TextView)itemView.findViewById(R.id.species_name);
+            speciesDescription = (TextView)itemView.findViewById(R.id.species_description);
+            speciesPhoto = (ImageView)itemView.findViewById(R.id.species_photo);
         }
     }
 
-    List<Species> persons;
+    List<Species> species;
 
-    RVAdapter(List<Species> persons){
-        this.persons = persons;
+    RVAdapter(List<Species> species){
+        this.species = species;
     }
 
     @Override
@@ -52,13 +54,13 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
 
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
-        personViewHolder.personName.setText(persons.get(i).name);
-        personViewHolder.personAge.setText(persons.get(i).age);
-        personViewHolder.personPhoto.setImageResource(persons.get(i).photoId);
+        personViewHolder.speciesName.setText(species.get(i).name);
+        personViewHolder.speciesDescription.setText(species.get(i).description);
+        personViewHolder.speciesPhoto.setImageResource(species.get(i).photoId);
     }
 
     @Override
     public int getItemCount() {
-        return persons.size();
+        return species.size();
     }
 }

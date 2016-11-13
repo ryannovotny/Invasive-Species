@@ -19,7 +19,7 @@ import java.util.List;
 
 public class RecyclerViewActivity extends Activity {
 
-    private List<Species> persons;
+    private List<Species> species;
     private RecyclerView rv;
 
     @Override
@@ -39,14 +39,15 @@ public class RecyclerViewActivity extends Activity {
     }
 
     private void initializeData(){
-        persons = new ArrayList<>();
-        persons.add(new Species("Emma Wilson", "23 years old", R.drawable.buckthorn));
-        persons.add(new Species("Lavery Maiss", "25 years old", R.drawable.british));
-        persons.add(new Species("Lillie Watts", "35 years old", R.drawable.thistle));
+        species = new ArrayList<>();
+        species.add(new Species("Buckthorn", "A shrub or small tree of the buckthorn family, typically bearing thorns. Some kinds yield dyes, and others have been used medicinally.", R.drawable.buckthorn));
+        species.add(new Species("British Yellowhead", "A Eurasian species of plants in the genus Inula within the daisy family. It is widespread across much of Europe and Asia, and sparingly naturalized in scattered locations in North America", R.drawable.british));
+        species.add(new Species("Common Thissle", "Thistle is the common name of a group of flowering plants characterised by leaves with sharp prickles on the margins, mostly in the family Asteraceae. " +
+                " The term thistle is sometimes taken to mean exactly those plants in the tribe Cynareae (synonym: Cardueae), especially the genera Carduus, Cirsium, and Onopordum.", R.drawable.thistle));
     }
 
     private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(persons);
+        RVAdapter adapter = new RVAdapter(species);
         rv.setAdapter(adapter);
     }
 }

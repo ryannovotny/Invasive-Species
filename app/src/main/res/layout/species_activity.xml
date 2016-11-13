@@ -19,7 +19,9 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_photo"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                android:id="@+id/species_photo"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
@@ -28,8 +30,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_name"
-                android:layout_toRightOf="@+id/person_photo"
+                android:id="@+id/species_name"
+                android:layout_toRightOf="@+id/species_photo"
                 android:layout_alignParentTop="true"
                 android:textSize="30sp"
                 />
@@ -37,9 +39,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/person_age"
-                android:layout_toRightOf="@+id/person_photo"
-                android:layout_below="@+id/person_name"
+                android:id="@+id/species_description"
+                android:layout_toRightOf="@+id/species_photo"
+                android:layout_below="@+id/species_name"
                 />
 
         </RelativeLayout>
