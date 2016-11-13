@@ -201,7 +201,7 @@ public class DrawerActivity extends AppCompatActivity
             Toast toast = Toast.makeText(this, "Open the map fragment activity", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_species) {
-            Intent intentSpecies = new Intent(DrawerActivity.this, SpeciesActivity.class);
+            Intent intentSpecies = new Intent(DrawerActivity.this, RecyclerViewActivity.class);
             startActivity(intentSpecies);
         } else if (id == R.id.nav_toggle) {
             Toast toast = Toast.makeText(this, "Toggle the overlay view", Toast.LENGTH_SHORT);
