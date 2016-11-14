@@ -18,6 +18,7 @@
         Some kinds yield dyes, and others have been used medicinally.</string>
     <string name="okay">Okay</string>
     <string name="cancel">Cancel</string>
+    <string name="poly_properties">Edit location</string>
 
     <!-- BEGIN DRAWER ACTIVITY -->
     <string name="title_activity_drawer">DrawerActivity</string>
