@@ -2,6 +2,7 @@ package com.florafinder.invasive_species;
 
 import android.*;
 import android.content.Intent;
+import android.app.FragmentManager;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -23,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+import android.graphics.Color;
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.common.ConnectionResult;
@@ -32,22 +34,33 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
+import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
+import com.google.android.gms.maps.model.Polygon;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
+        LocationListener, OnMapLongClickListener {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Data
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
+    private Polygon mSquare;
+    private Marker mMarker;
 
     //For resolving connection issues
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -105,23 +118,25 @@ public class DrawerActivity extends AppCompatActivity
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
         //***************************************END***********************************************
 
         //******************************LOCATION HANDLING START************************************
         // Create GoogleApiClient object
-                mGoogleApiClient = new GoogleApiClient.Builder(this)
-                        .addConnectionCallbacks(this)
-                        .addOnConnectionFailedListener(this)
-                        .addApi(LocationServices.API)
-                        .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
 
-                // Create a LocationRequest object
-                mLocationRequest = LocationRequest.create()
-                        .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                        .setInterval(30 * 1000) //25 seconds, in milliseconds
-                        .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
+        // Create a LocationRequest object
+        mLocationRequest = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+                .setInterval(30 * 1000) //25 seconds, in milliseconds
+                .setFastestInterval(5 * 1000); //5 seconds, in milliseconds
 
-                Log.d("Map Activity: ", "Map launch successful");
+        Log.d("Map Activity: ", "Map launch successful");
         //***************************************END***********************************************
     }
 
@@ -204,7 +219,7 @@ public class DrawerActivity extends AppCompatActivity
             Intent intentSpecies = new Intent(DrawerActivity.this, RecyclerViewActivity.class);
             startActivity(intentSpecies);
         } else if (id == R.id.nav_toggle) {
-            Toast toast = Toast.makeText(this, "Toggle the overlay view", Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this, "Toggle the grid overlay on or off", Toast.LENGTH_SHORT);
             toast.show();
         } else if (id == R.id.nav_settings) {
             Intent intentSettings = new Intent(DrawerActivity.this, SettingsActivity.class);
@@ -216,7 +231,51 @@ public class DrawerActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+    //make the circle be able to pop up when user clicks on the map
+    @Override
+    public void onMapLongClick(LatLng point) {
+        String s = point.toString();
+        String[] latLng = s.substring(10, s.length() - 1).split(",");
+        String sLat = latLng[0];
+        String sLng = latLng[1];
+        double dLat = Double.parseDouble(sLat);
+        double dLng = Double.parseDouble(sLng);
+        PolygonOptions squareOpt = new PolygonOptions()
+                .add(point, new LatLng(dLat,dLng+.001), new LatLng(dLat+.0005,dLng+.001), new LatLng(dLat+.0005,dLng)) //set size
+                .fillColor(0x40ff0000)  //semi-transparent
+                .strokeColor(Color.BLUE)
+                .strokeWidth(5);
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(new LatLng(dLat+.00025,dLng+.0005)) // set marker at the center of the circle
+                .title("Invasive Species")
+                .snippet(dLat+"/"+dLng)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));//marker color
+        mSquare = mMap.addPolygon(squareOpt);
+        mMarker = mMap.addMarker(markerOptions);
 
+    }
+
+
+    public void grid(){
+        double i;
+        double j;
+        double dLat = 46.805993, dLng = -92.100449;
+        for(i = 0; i < .0105; i+=.0005) {
+            for(j= 0; j < .013; j+= .001) {
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat + i, dLng + j),
+                                new LatLng(dLat + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + j)) //set size
+                        //.fillColor(0x40ff0000)// color red
+                        //.fillColor(0x400ff000)// color green
+                        .fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLUE)
+                        .strokeWidth(1);
+                mSquare = mMap.addPolygon(squareOpt);
+            }
+        }
+    }
     /**
     * Sets up the map and connects the GoogleApiClient
     * Method is designed this way to ensure that the map is ready
@@ -225,6 +284,8 @@ public class DrawerActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+       // mMap.setOnMapLongClickListener(this);
+        grid();
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
