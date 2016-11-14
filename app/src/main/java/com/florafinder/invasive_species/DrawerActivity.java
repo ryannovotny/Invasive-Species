@@ -1,6 +1,8 @@
 package com.florafinder.invasive_species;
 
 import android.*;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.app.FragmentManager;
 import android.content.IntentSender;
@@ -11,7 +13,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.support.design.widget.NavigationView;
@@ -271,7 +276,8 @@ public class DrawerActivity extends AppCompatActivity
                         //.fillColor(0x400ff000)// color green
                         .fillColor(0x00000000)// semi-transparent
                         .strokeColor(Color.BLUE)
-                        .strokeWidth(1);
+                        .strokeWidth(1)
+                        .clickable(true);
                 mSquare = mMap.addPolygon(squareOpt);
             }
         }
@@ -286,6 +292,13 @@ public class DrawerActivity extends AppCompatActivity
         mMap = googleMap;
        // mMap.setOnMapLongClickListener(this);
         grid();
+        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+            @Override
+            public void onPolygonClick(Polygon polygon) {
+                DialogActivity dialogActivity = new DialogActivity();
+                dialogActivity.show(getSupportFragmentManager(), "tag");
+            }
+        });
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
