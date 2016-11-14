@@ -296,7 +296,7 @@ public class DrawerActivity extends AppCompatActivity
             @Override
             public void onPolygonClick(Polygon polygon) {
                 DialogActivity dialogActivity = new DialogActivity();
-                dialogActivity.show(getSupportFragmentManager(), "tag");
+                dialogActivity.show(getSupportFragmentManager(), "polygon_options");
             }
         });
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
