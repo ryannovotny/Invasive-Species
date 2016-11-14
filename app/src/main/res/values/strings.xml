@@ -16,6 +16,8 @@
     <string name="buckthorn">Buckthorn</string>
     <string name="buckthorn_info"> A shrub or small tree of the buckthorn family, typically bearing thorns.
         Some kinds yield dyes, and others have been used medicinally.</string>
+    <string name="okay">Okay</string>
+    <string name="cancel">Cancel</string>
 
     <!-- BEGIN DRAWER ACTIVITY -->
     <string name="title_activity_drawer">DrawerActivity</string>
