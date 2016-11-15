@@ -277,7 +277,7 @@ public class DrawerActivity extends AppCompatActivity
                         //.fillColor(0x400000ff)// color blue
                         .fillColor(0x00000000)// semi-transparent
                         .strokeColor(Color.BLACK)
-                        .strokeWidth(1)
+                        .strokeWidth(2)
                         .clickable(true);
                 mSquare = mMap.addPolygon(squareOpt);
             }
@@ -300,7 +300,7 @@ public class DrawerActivity extends AppCompatActivity
                         //.fillColor(0x400000ff)// color blue
                         .fillColor(0x00000000)// semi-transparent
                         .strokeColor(Color.BLACK)
-                        .strokeWidth(1)
+                        .strokeWidth(2)
                         .clickable(true);
                 mSquare = mMap.addPolygon(squareOpt);
             }
@@ -311,7 +311,7 @@ public class DrawerActivity extends AppCompatActivity
         double i;
         double j;
         double dLat = 46.825979, dLng = -92.100245;
-        for(i = 0; i < .017; i+=.0005) {
+        for(i = 0; i < .0085; i+=.0005) {
             for(j= 0; j < .022; j+= .001) {
                 PolygonOptions squareOpt = new PolygonOptions()
                         .add(new LatLng(dLat + i, dLng + j),
@@ -323,7 +323,110 @@ public class DrawerActivity extends AppCompatActivity
                         //.fillColor(0x400000ff)// color blue
                         .fillColor(0x00000000)// semi-transparent
                         .strokeColor(Color.BLACK)
-                        .strokeWidth(1)
+                        .strokeWidth(2)
+                        .clickable(true);
+                mSquare = mMap.addPolygon(squareOpt);
+            }
+        }
+    }
+
+    public void Congdon_Park_grid1(){
+        double i;
+        double j;
+        double dLat = 46.819225, dLng = -92.068734;
+        for(i = 0; i < .003; i+=.0005) {
+            for(j= 0; j < .005; j+= .001) {
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat + i, dLng + j),
+                                new LatLng(dLat + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + j)) //set size
+                        //.fillColor(0x40ff0000)// color red
+                        //.fillColor(0x400ff000)// color green
+                        //.fillColor(0x400000ff)// color blue
+                        .fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLACK)
+                        .strokeWidth(2)
+                        .clickable(true);
+                mSquare = mMap.addPolygon(squareOpt);
+            }
+        }
+    }
+
+    public void Congdon_Park_grid2(){
+        double i;
+        double j;
+        double dLat = 46.819225, dLng = -92.063734;
+        for(i = 0; i < .0025; i+=.0005) {
+            for(j= 0; j < .001; j+= .001) {
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat + i, dLng + j),
+                                new LatLng(dLat + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + j)) //set size
+                        .fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLACK)
+                        .strokeWidth(2)
+                        .clickable(true);
+                mSquare = mMap.addPolygon(squareOpt);
+            }
+        }
+    }
+
+    public void Congdon_Park_grid3(){
+        double i;
+        double j;
+        double dLat = 46.818725, dLng = -92.062734;
+        for(i = 0; i < .0015; i+=.0005) {
+            for(j= 0; j < .003; j+= .001) {
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat + i, dLng + j),
+                                new LatLng(dLat + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + j)) //set size
+                        .fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLACK)
+                        .strokeWidth(2)
+                        .clickable(true);
+                mSquare = mMap.addPolygon(squareOpt);
+            }
+        }
+    }
+
+    public void Congdon_Park_grid4(){
+        double i;
+        double j;
+        double dLat = 46.818225, dLng = -92.059734;
+        for(i = 0; i < .0015; i+=.0005) {
+            for(j= 0; j < .003; j+= .001) {
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat + i, dLng + j),
+                                new LatLng(dLat + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + j)) //set size
+                        .fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLACK)
+                        .strokeWidth(2)
+                        .clickable(true);
+                mSquare = mMap.addPolygon(squareOpt);
+            }
+        }
+    }
+
+    public void Congdon_Park_grid5(){
+        double i;
+        double j;
+        double dLat = 46.816225, dLng = -92.056734;
+        for(i = 0; i < .0025; i+=.0005) {
+            for(j= 0; j < .003; j+= .001) {
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat + i, dLng + j),
+                                new LatLng(dLat + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + .001 + j),
+                                new LatLng(dLat + .0005 + i, dLng + j)) //set size
+                        .fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLACK)
+                        .strokeWidth(2)
                         .clickable(true);
                 mSquare = mMap.addPolygon(squareOpt);
             }
@@ -340,6 +443,11 @@ public class DrawerActivity extends AppCompatActivity
        // mMap.setOnMapLongClickListener(this);
         Chester_Park_grid();
         Bagley_Park_grid();
+        Congdon_Park_grid1();
+        Congdon_Park_grid2();
+        Congdon_Park_grid3();
+        Congdon_Park_grid4();
+        Congdon_Park_grid5();
         //Hunters_Park_grid();
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
