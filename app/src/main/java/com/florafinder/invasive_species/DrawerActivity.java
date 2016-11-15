@@ -340,7 +340,7 @@ public class DrawerActivity extends AppCompatActivity
        // mMap.setOnMapLongClickListener(this);
         Chester_Park_grid();
         Bagley_Park_grid();
-        Hunters_Park_grid();
+        //Hunters_Park_grid();
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
             public void onPolygonClick(Polygon polygon) {
