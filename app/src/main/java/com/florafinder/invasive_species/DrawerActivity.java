@@ -275,6 +275,8 @@ public class DrawerActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
        // mMap.setOnMapLongClickListener(this);
+        mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        mMap.setMyLocationEnabled(true);
 
         //initialize tiles
         RestAsyncTask asyncTask = new RestAsyncTask(mMap);
