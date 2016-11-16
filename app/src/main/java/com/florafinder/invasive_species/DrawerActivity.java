@@ -53,6 +53,12 @@ import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -76,7 +82,7 @@ public class DrawerActivity extends AppCompatActivity
     private static final int REQUEST_CODE_PERMISSION = 2;
 
     //Client-Server data
-    private final static String SERVER_IP = "0.0.0.0";
+    private final static String SERVER_IP = "131.212.215.62";
     private final static String SERVER_PORT = ":4321";
     private final static String MAP_DIRECTORY = "/mapdata";
     private final static String USER_DIRECTORY = "/userdata";
@@ -279,9 +285,17 @@ public class DrawerActivity extends AppCompatActivity
         mMap.setMyLocationEnabled(true);
 
         //initialize tiles
-        RestAsyncTask asyncTask = new RestAsyncTask(mMap);
-        asyncTask.execute("http://" + SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
+        mapGET();
 
+        //Initialize onClick listener
+        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+            @Override
+            public void onPolygonClick(Polygon polygon) {
+                DialogActivity dialogActivity = new DialogActivity();
+                dialogActivity.show(getSupportFragmentManager(), "tag");
+                polygon.setFillColor(0x40ff0000);
+            }
+        });
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
@@ -301,8 +315,7 @@ public class DrawerActivity extends AppCompatActivity
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-    }
+    public void onConnectionSuspended(int i) {}
 
     /*
      * Google Play services can resolve some errors it detects.
@@ -427,5 +440,61 @@ public class DrawerActivity extends AppCompatActivity
 
             }//end else
         }// end else
+    }
+
+    /**
+     * Called to perform GET request to server
+     * Upon request, the map is updated to inlude tiles as they're
+     * defined on the server
+     */
+    private void mapGET(){
+
+        String result;
+        RestAsyncTask asyncTask = new RestAsyncTask();
+        asyncTask.execute("http://" + SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
+
+        try {
+            result = asyncTask.get();
+
+            //Create JSONArray from result
+            JSONObject jsonObject = new JSONObject(result);
+            JSONArray jsonArray = (JSONArray)jsonObject.get("tiles");
+
+            /**terate through JSONArray and add tiles
+             * Starts at 1 to ignore initTile
+             */
+            for(int i = 1; i < jsonArray.length(); ++i){
+
+                JSONObject tile = (JSONObject) jsonArray.get(i);
+
+                Double dLat = (Double) tile.get("lat");
+                Double dLng = (Double) tile.get("lang");
+
+                PolygonOptions squareOpt = new PolygonOptions()
+                        .add(new LatLng(dLat, dLng),
+                                new LatLng(dLat, dLng + .001),
+                                new LatLng(dLat + .0005, dLng + .001),
+                                new LatLng(dLat + .0005, dLng)) //set size
+                        //.fillColor(0x40ff0000)// color red
+                        //.fillColor(0x400ff000)// color green
+                        .fillColor(0x00000000)// semi-transparent
+                        .strokeColor(Color.BLUE)
+                        .strokeWidth(1)
+                        .clickable(true);
+                mMap.addPolygon(squareOpt);
+            }
+        }
+        catch(ExecutionException err) {
+            Log.e("MapGET", "Error executing HTTP call");
+            err.printStackTrace();
+        }
+        catch(InterruptedException err){
+            Log.e("MapGET", "Error- HTTP execution interrupted");
+            err.printStackTrace();
+        }
+        catch (JSONException err){
+            Log.e("/mapdata GET", "Error parsing JSON");
+            err.printStackTrace();
+        }
     }
 }
