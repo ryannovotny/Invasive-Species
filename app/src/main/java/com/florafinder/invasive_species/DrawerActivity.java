@@ -266,11 +266,6 @@ public class DrawerActivity extends AppCompatActivity
 
     }
 
-
-    public void grid(){
-        RestAsyncTask asyncTask = new RestAsyncTask(mMap);
-        asyncTask.execute("http://" + SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
-    }
     /**
     * Sets up the map and connects the GoogleApiClient
     * Method is designed this way to ensure that the map is ready
@@ -280,7 +275,11 @@ public class DrawerActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
        // mMap.setOnMapLongClickListener(this);
-        grid();
+
+        //initialize tiles
+        RestAsyncTask asyncTask = new RestAsyncTask(mMap);
+        asyncTask.execute("http://" + SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
+
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
