@@ -47,8 +47,7 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     private final static String MAP_DIRECTORY = "http://"+IP+":4321/mapdata";
     private final static String USER_DIRECTORY = "http://"+IP+":4321/userdata";
 
-    public RestAsyncTask(Object[] objs){
-        this.objs = objs;
+    public RestAsyncTask(){
     }
 
     @Override
@@ -122,11 +121,7 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
      * @param result the result from the query
      */
     protected void onPostExecute(String result) {
-
-        Log.d("postExe", "URL: " + url + "\ncommand: " + command);
-        if(url.toString().equals(MAP_DIRECTORY) && command.equals("GET")){
-            updateMapGrids(result);
-        }
+        //May not need to implement
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////
@@ -134,52 +129,4 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     //                  Will handle responses to onPostExecute
     ////////////////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Updates the grids on the Google Map
-     * @param result JSON returned from server
-     */
-    private void updateMapGrids(String result){
-        try {
-            this.mMap = (GoogleMap) objs[0];
-            Log.d("/mapdata GET", "Succesfully recast object to Google Map");
-
-            //Create JSONArray from result
-            JSONObject jsonObject = new JSONObject(result);
-            JSONArray jsonArray = (JSONArray)jsonObject.get("tiles");
-
-            /**terate through JSONArray and add tiles
-             * Starts at 1 to ignore initTile
-             * WILL BE UPDATE LATER TO INCLUDE UPDATES TO EXISTING TILES
-             */
-            for(int i = 1; i < jsonArray.length(); ++i){
-
-                JSONObject tile = (JSONObject) jsonArray.get(i);
-
-                Double dLat = (Double) tile.get("lat");
-                Double dLng = (Double) tile.get("lang");
-
-                PolygonOptions squareOpt = new PolygonOptions()
-                        .add(new LatLng(dLat, dLng),
-                                new LatLng(dLat, dLng + .001),
-                                new LatLng(dLat + .0005, dLng + .001),
-                                new LatLng(dLat + .0005, dLng)) //set size
-                        //.fillColor(0x40ff0000)// color red
-                        //.fillColor(0x400ff000)// color green
-                        .fillColor(0x00000000)// semi-transparent
-                        .strokeColor(Color.BLUE)
-                        .strokeWidth(1);
-                mMap.addPolygon(squareOpt);
-            }
-        }
-        catch (JSONException err){
-            Log.e("/mapdata GET", "Error parsing JSON");
-            err.printStackTrace();
-        }
-    }
-
-    private void updateUserData(){}
-
-    private void getUserData(){}
-
-    private void getSpeciesData(){}
 }
