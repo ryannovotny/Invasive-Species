@@ -2,11 +2,15 @@ package com.florafinder.invasive_species;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+import com.google.android.gms.maps.SupportMapFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,16 +36,19 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     ////////////////////////////////////////////////////////////////////////////////////////
     //                           Private Data
 
-    private Object obj;     //Will be recast based on url and command
+    private Object[] objs;     //Will be recast based on url and command
     private String command;
     private URL url;
+
+    //Data to pass back
+    private GoogleMap mMap;
 
     private final static String IP = "131.212.215.62";
     private final static String MAP_DIRECTORY = "http://"+IP+":4321/mapdata";
     private final static String USER_DIRECTORY = "http://"+IP+":4321/userdata";
 
-    public RestAsyncTask(Object obj){
-        this.obj = obj;
+    public RestAsyncTask(Object[] objs){
+        this.objs = objs;
     }
 
     @Override
@@ -133,7 +140,7 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
      */
     private void updateMapGrids(String result){
         try {
-            GoogleMap mMap = (GoogleMap) obj;
+            this.mMap = (GoogleMap) objs[0];
             Log.d("/mapdata GET", "Succesfully recast object to Google Map");
 
             //Create JSONArray from result
@@ -156,14 +163,13 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
                                 new LatLng(dLat, dLng + .001),
                                 new LatLng(dLat + .0005, dLng + .001),
                                 new LatLng(dLat + .0005, dLng)) //set size
-                        .fillColor(0x40ff0000)// color red
+                        //.fillColor(0x40ff0000)// color red
                         //.fillColor(0x400ff000)// color green
-                        //.fillColor(0x00000000)// semi-transparent
+                        .fillColor(0x00000000)// semi-transparent
                         .strokeColor(Color.BLUE)
                         .strokeWidth(1);
                 mMap.addPolygon(squareOpt);
             }
-
         }
         catch (JSONException err){
             Log.e("/mapdata GET", "Error parsing JSON");

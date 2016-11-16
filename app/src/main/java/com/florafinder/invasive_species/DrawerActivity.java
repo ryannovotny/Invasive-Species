@@ -277,9 +277,18 @@ public class DrawerActivity extends AppCompatActivity
        // mMap.setOnMapLongClickListener(this);
 
         //initialize tiles
-        RestAsyncTask asyncTask = new RestAsyncTask(mMap);
+        RestAsyncTask asyncTask = new RestAsyncTask(new Object[]{mMap, getSupportFragmentManager()});
         asyncTask.execute("http://" + SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
 
+        //Initialize onClick listener
+        mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
+            @Override
+            public void onPolygonClick(Polygon polygon) {
+                DialogActivity dialogActivity = new DialogActivity();
+                dialogActivity.show(getSupportFragmentManager(), "tag");
+                polygon.setFillColor(0x40ff0000);
+            }
+        });
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
@@ -299,8 +308,7 @@ public class DrawerActivity extends AppCompatActivity
     }
 
     @Override
-    public void onConnectionSuspended(int i) {
-    }
+    public void onConnectionSuspended(int i) {}
 
     /*
      * Google Play services can resolve some errors it detects.
