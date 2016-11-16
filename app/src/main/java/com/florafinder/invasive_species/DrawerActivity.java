@@ -475,7 +475,7 @@ public class DrawerActivity extends AppCompatActivity
                                 new LatLng(dLat + .0005, dLng)) //set size
                         //.fillColor(0x40ff0000)// color red
                         //.fillColor(0x400ff000)// color green
-                        ..fillColor(0x00000000)// semi-transparent
+                        .fillColor(0x00000000)// semi-transparent
                         .strokeColor(Color.BLUE)
                         .strokeWidth(1)
                         .clickable(true);
