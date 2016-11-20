@@ -2,6 +2,13 @@
     <string name="app_name">Invasive Species</string>
     <string name="title_activity_maps">Map</string>
 
+    <!-- BEGIN LOGIN SCREEN-->
+    <string name="error_invalid_password">Invalid Password</string>
+    <string name="error_field_required">Field Required</string>
+    <string name="error_invalid_email">Invalid Email</string>
+    <string name="error_incorrect_password">Incorrect Password</string>
+    <string name="permission_rationale">Request Permissions?</string>
+
     <!-- BEGIN NAVIGATION DRAWER-->
     <string name="name">NAME</string>
     <string name="email">EMAIL</string>
