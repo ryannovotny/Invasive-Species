@@ -8,6 +8,11 @@
     <string name="error_invalid_email">Invalid Email</string>
     <string name="error_incorrect_password">Incorrect Password</string>
     <string name="permission_rationale">Request Permissions?</string>
+    
+    <string name="prompt_email">Enter Email</string>
+    <string name="prompt_password">Enter Password</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_sign_in_short">Sign In</string>
 
     <!-- BEGIN NAVIGATION DRAWER-->
     <string name="name">NAME</string>
