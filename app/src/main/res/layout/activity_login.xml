@@ -49,8 +49,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
                     android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -67,8 +66,7 @@
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -101,8 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_name"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -117,8 +114,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
                     android:imeActionLabel="@string/action_sign_in_short"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -135,8 +131,24 @@
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:singleLine="true" />
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!--CONFIRM PASSWORD-->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/confirm_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/confirm_password"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:maxLines="1"/>
 
             </android.support.design.widget.TextInputLayout>
 
