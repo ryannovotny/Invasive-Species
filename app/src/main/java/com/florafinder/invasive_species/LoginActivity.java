@@ -5,37 +5,21 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
-
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -52,11 +36,6 @@ public class LoginActivity extends AppCompatActivity{
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private RestAsyncTask mAuthTask = null;
 
     // UI references.
     private EditText mPasswordView, mNewPasswordView, mConfirmPasswordView,
@@ -108,6 +87,12 @@ public class LoginActivity extends AppCompatActivity{
 
         //Setup signup button
         Button mSignUpButton = (Button) findViewById(R.id.email_sign_up_button);
+        mSignUpButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                attemptSignup();
+            }
+        });
 
 
         mLoginFormView = findViewById(R.id.login_form);
@@ -137,14 +122,11 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
+     * Attempts to sign in
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
 
         // Reset errors.
         mEmailView.setError(null);
@@ -235,6 +217,113 @@ public class LoginActivity extends AppCompatActivity{
         }
         catch(JSONException err){
             Log.e("LOGIN PUT", "Error parsing JSON result");
+        }
+    }
+
+    /**
+     * Attempts to sign up
+     * If errors occur or the email already exists, no signup is made
+     */
+    private void attemptSignup(){
+        // Reset errors.
+        mNewEmailView.setError(null);
+        mNewPasswordView.setError(null);
+        mConfirmPasswordView.setError(null);
+
+        // Store values at the time of the login attempt.
+        String name = mNameView.getText().toString();
+        String email = mNewEmailView.getText().toString();
+        String password = mNewPasswordView.getText().toString();
+        String confirmPassword = mConfirmPasswordView.getText().toString();
+
+        boolean cancel = false;
+        View focusView = null;
+
+        //confirm name exists
+        if (TextUtils.isEmpty(name)) {
+            mNameView.setError(getString(R.string.error_field_required));
+            focusView = mNameView;
+            cancel = true;
+        }
+
+        // Check for a valid password, if the user entered one.
+        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+            mNewPasswordView.setError(getString(R.string.error_invalid_password));
+            focusView = mNewPasswordView;
+            cancel = true;
+        }
+
+        // Check for matching password confirmation
+        if (!TextUtils.isEmpty(confirmPassword) && !password.equals(confirmPassword)) {
+            mConfirmPasswordView.setError(getString(R.string.error_incorrect_confirm_password));
+            focusView = mConfirmPasswordView;
+            cancel = true;
+        }
+
+        // Check for a valid email address.
+        if (TextUtils.isEmpty(email)) {
+            mNewEmailView.setError(getString(R.string.error_field_required));
+            focusView = mNewEmailView;
+            cancel = true;
+        } else if (!isEmailValid(email)) {
+            mNewEmailView.setError(getString(R.string.error_invalid_email));
+            focusView = mNewEmailView;
+            cancel = true;
+        }
+
+        if (cancel) {
+            // There was an error; don't attempt login and focus the first
+            // form field with an error.
+            focusView.requestFocus();
+        } else {
+            // Show a progress spinner, and kick off a background task to
+            // perform the user login attempt.
+            showProgress(true);
+            attemptSignUpConnect(name, password, email);
+        }
+    }
+
+    /**
+     * Attempts to make POST connection to server
+     * On success creates new account
+     * @param name
+     * @param password
+     * @param email
+     */
+    private void attemptSignUpConnect(String name, String password, String email){
+
+        Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
+
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("name", name);
+            jsonObject.put("email", email);
+            jsonObject.put("password", password);
+
+            RestAsyncTask task = new RestAsyncTask();
+            task.execute(SERVER_IP + SERVER_PORT + USER_DIRECTORY,"POST",jsonObject.toString());
+
+            //attempt to get results
+            String results = task.get();
+
+            jsonObject = new JSONObject(results);
+            if((Boolean) jsonObject.get("exists")) {
+                mNewEmailView.setError(getString(R.string.error_invalid_email));
+            }
+            else {
+                startActivity(intent);
+            }
+        }
+
+        //Error handling
+        catch(InterruptedException err){
+            Log.e("SignUp POST", "Execution interrupted");
+        }
+        catch(ExecutionException err){
+            Log.e("SignUp POST", "Execution failed");
+        }
+        catch(JSONException err){
+            Log.e("SignUp POST", "Error parsing JSON objecg");
         }
     }
 
