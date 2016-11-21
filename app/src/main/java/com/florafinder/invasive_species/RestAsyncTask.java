@@ -36,16 +36,7 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
     ////////////////////////////////////////////////////////////////////////////////////////
     //                           Private Data
 
-    private Object[] objs;     //Will be recast based on url and command
-    private String command;
     private URL url;
-
-    //Data to pass back
-    private GoogleMap mMap;
-
-    private final static String IP = "131.212.215.62";
-    private final static String MAP_DIRECTORY = "http://"+IP+":4321/mapdata";
-    private final static String USER_DIRECTORY = "http://"+IP+":4321/userdata";
 
     public RestAsyncTask(){
     }
@@ -60,7 +51,6 @@ public class RestAsyncTask extends AsyncTask<String, Integer, String> {
 
         try {
             url = new URL( params[0] );
-            command = params[1];
             serverConnection = (HttpURLConnection) url.openConnection();
             serverConnection.setRequestMethod(params[1]);
             if (params[1].equals("POST") ||
