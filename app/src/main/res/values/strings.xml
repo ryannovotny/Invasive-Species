@@ -8,6 +8,7 @@
     <string name="error_field_required">Field Required</string>
     <string name="error_invalid_email">Invalid Email</string>
     <string name="error_incorrect_password">Incorrect Password</string>
+    <string name="error_incorrect_confirm_password">Incorrect Confirm Password</string>
     <string name="permission_rationale">Request Permissions?</string>
 
     <string name="log_in">LOG IN</string>
