@@ -82,7 +82,7 @@ public class DrawerActivity extends AppCompatActivity
     private static final int REQUEST_CODE_PERMISSION = 2;
 
     //Client-Server data
-    private final static String SERVER_IP = "131.212.215.62";
+    private final static String SERVER_IP = "131.212.217.220";
     private final static String SERVER_PORT = ":4321";
     private final static String MAP_DIRECTORY = "/mapdata";
     private final static String USER_DIRECTORY = "/userdata";
@@ -319,7 +319,7 @@ public class DrawerActivity extends AppCompatActivity
 
     /*
      * Google Play services can resolve some errors it detects.
-     * If the error has a resolution, try sending an Intent to
+     * If the error has a resolution, try sending an int to
      * start a Google Play services activity that can resolve
      * error.
      */
