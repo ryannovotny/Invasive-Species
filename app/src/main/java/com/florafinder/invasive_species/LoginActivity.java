@@ -43,8 +43,8 @@ public class LoginActivity extends AppCompatActivity{
     private View mProgressView;
     private View mLoginFormView;
 
-    private final static String USER_DIRECTORY = "/userdata";
-    private final static String SERVER_IP = "131.212.217.220";
+    private final static String USER_DIRECTORY = "/userData";
+    private final static String SERVER_IP = "http://131.212.217.220";
     private final static String SERVER_PORT = ":4321";
 
 
@@ -164,7 +164,6 @@ public class LoginActivity extends AppCompatActivity{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
             attemptLogInConnect(email, password);
         }
     }
@@ -214,6 +213,7 @@ public class LoginActivity extends AppCompatActivity{
         }
         catch(ExecutionException err){
             Log.e("LOGIN PUT", "Execution failed");
+            task.cancel(true);
         }
         catch(JSONException err){
             Log.e("LOGIN PUT", "Error parsing JSON result");
@@ -278,7 +278,6 @@ public class LoginActivity extends AppCompatActivity{
         } else {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
             attemptSignUpConnect(name, password, email);
         }
     }
@@ -293,6 +292,7 @@ public class LoginActivity extends AppCompatActivity{
     private void attemptSignUpConnect(String name, String password, String email){
 
         Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
+        RestAsyncTask task = new RestAsyncTask();
 
         try {
             JSONObject jsonObject = new JSONObject();
@@ -300,7 +300,6 @@ public class LoginActivity extends AppCompatActivity{
             jsonObject.put("email", email);
             jsonObject.put("password", password);
 
-            RestAsyncTask task = new RestAsyncTask();
             task.execute(SERVER_IP + SERVER_PORT + USER_DIRECTORY,"POST",jsonObject.toString());
 
             //attempt to get results
@@ -321,6 +320,7 @@ public class LoginActivity extends AppCompatActivity{
         }
         catch(ExecutionException err){
             Log.e("SignUp POST", "Execution failed");
+            task.cancel(true);
         }
         catch(JSONException err){
             Log.e("SignUp POST", "Error parsing JSON objecg");
