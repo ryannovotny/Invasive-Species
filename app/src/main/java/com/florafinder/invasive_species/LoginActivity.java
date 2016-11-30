@@ -44,7 +44,7 @@ public class LoginActivity extends AppCompatActivity{
     private View mLoginFormView;
 
     private final static String USER_DIRECTORY = "/userData";
-    private final static String SERVER_IP = "http://131.212.217.220";
+    private final static String SERVER_IP = "http://131.212.215.228";
     private final static String SERVER_PORT = ":4321";
 
 
