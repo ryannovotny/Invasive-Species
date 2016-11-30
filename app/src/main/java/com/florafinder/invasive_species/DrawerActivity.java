@@ -282,7 +282,6 @@ public class DrawerActivity extends AppCompatActivity
         mMap = googleMap;
        // mMap.setOnMapLongClickListener(this);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
-        mMap.setMyLocationEnabled(true);
 
         //initialize tiles
         mapGET();
@@ -419,6 +418,7 @@ public class DrawerActivity extends AppCompatActivity
 
                 Log.d("Permissions:", "Fine and Coarse location permissions granted");
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+                mMap.setMyLocationEnabled(true);
 
                 //Initialize user's location on Connect
                 Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
