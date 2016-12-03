@@ -11,6 +11,7 @@ public class SpeciesActivity extends Activity {
     TextView speciesName;
     TextView speciesDescription;
     ImageView speciesPhoto;
+    TextView speciesRemove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +21,11 @@ public class SpeciesActivity extends Activity {
         speciesName = (TextView)findViewById(R.id.species_name);
         speciesDescription = (TextView)findViewById(R.id.species_description);
         speciesPhoto = (ImageView)findViewById(R.id.species_photo);
+        speciesRemove = (TextView) findViewById(R.id.species_remove);
 
         speciesName.setText("Buckthorn");
         speciesDescription.setText("23 years old");
         speciesPhoto.setImageResource(R.drawable.buckthorn);
+        speciesRemove.setText("How to remove: ");
     }
 }

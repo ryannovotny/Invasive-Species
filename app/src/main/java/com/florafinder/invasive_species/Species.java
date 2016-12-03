@@ -9,10 +9,12 @@ class Species {
     String name;
     String description;
     int photoId;
+    String remove;
 
-    Species(String name, String description, int photoId) {
+    Species(String name, String description, int photoId, String remove) {
         this.name = name;
         this.description = description;
         this.photoId = photoId;
+        this.remove = remove;
     }
 }

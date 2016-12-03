@@ -34,6 +34,13 @@
             android:layout_below="@+id/species_name"
             />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/species_remove"
+            android:layout_below="@+id/species_description"
+            />
+
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>
