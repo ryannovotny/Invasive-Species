@@ -4,6 +4,7 @@ package com.florafinder.invasive_species;
  * Created by lando on 11/12/2016.
  */
 
+import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         PersonViewHolder(View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
+            cv.setCardBackgroundColor(Color.rgb(142,210,122));
             speciesName = (TextView)itemView.findViewById(R.id.species_name);
             speciesDescription = (TextView)itemView.findViewById(R.id.species_description);
             speciesPhoto = (ImageView)itemView.findViewById(R.id.species_photo);
