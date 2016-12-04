@@ -31,6 +31,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
             cv.setCardBackgroundColor(Color.rgb(142,210,122));
+
             speciesName = (TextView)itemView.findViewById(R.id.species_name);
             speciesDescription = (TextView)itemView.findViewById(R.id.species_description);
             speciesPhoto = (ImageView)itemView.findViewById(R.id.species_photo);

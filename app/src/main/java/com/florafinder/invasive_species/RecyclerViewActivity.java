@@ -46,7 +46,7 @@ public class RecyclerViewActivity extends Activity {
         species.add(new Species("Garlic Mustand", "Alliaria petiolata is a biennial flowering plant in the Mustard family, Brassicaceae. It is native to Europe, western and central Asia, and northwestern Africa, from Morocco, Iberia and the British Isles, north to northern Scandinavia, and east to northern Pakistan and western China", R.drawable.garlic, "How to remove: "));
         species.add(new Species("Exotic Honeysuckles", "Lonicera tatarica is a species of honeysuckle known by the common name Tartarian honeysuckle. It is native to Siberia and other parts of eastern Asia, but it is probably better known in North America. " +
                 "Lonicera morrowii, the Morrow's honeysuckle, is a deciduous honeysuckle in the family Caprifoliaceae, native to Japan, Korea, and Northeast China. It is a shrub, reaching a height of 2-2.5 m, with oblong leaves 4–6 cm long. " +
-                "Bell's honeysuckle (Lonicera x bella) is a dense, multi-stemmed, deciduous shrub that grows up to 20’ tall. Young stems are slightly hairy and light brown while older stems may have shaggy, peeling bark and are often hollow between the nodes. ", R.drawable.honey, "How to remove: "));
+                "Bell's honeysuckle (Lonicera x bella) is a dense, multi-stemmed, deciduous shrub that grows up to 20’ tall. Young stems are slightly hairy and light brown while older stems may have shaggy, peeling bark and are often hollow between the nodes. ", R.drawable.honey, "How to remove: \n "));
 
     }
 
