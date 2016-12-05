@@ -42,4 +42,18 @@ public class InvPolygonList{
 
         return exists;
     }
+
+    public InvPolygon getTile(double lat, double lang) {
+        boolean exists = false;
+        InvPolygon rtrnPoly = null;
+
+        for (int i = 0; i < list.size() && !exists; ++i) {
+            if (list.get(i).hasLatLang(lat, lang)) {
+                exists = true;
+                rtrnPoly = list.get(i);
+            }
+        }
+
+        return rtrnPoly;
+    }
 }

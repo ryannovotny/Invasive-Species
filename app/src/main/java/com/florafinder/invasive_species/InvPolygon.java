@@ -11,20 +11,25 @@ import java.util.ArrayList;
 
 public class InvPolygon{
 
-    private final Polygon polygon;
+    private double lat, lang;
     private final ArrayList<String> speciesList;
 
-    public InvPolygon(Polygon polygon) {
-        this.polygon = polygon;
+    public InvPolygon(double lat, double lang) {
+        this.lat = lat;
+        this.lang = lang;
         this.speciesList = new ArrayList();
     }
 
-    /**
-     * Getter method for polygon
-     * @return
-     */
-    public Polygon getPolygon() {
-        return this.polygon;
+    public double getLat() {
+        return this.lat;
+    }
+
+    public double getLang(){
+        return this.lang;
+    }
+
+    public boolean hasLatLang(double lat, double lang){
+        return lat == this.lat && lang == this.lang;
     }
 
     /**
