@@ -420,8 +420,6 @@ public class DrawerActivity extends AppCompatActivity
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
                 mMap.setMyLocationEnabled(true);
 
-                mMap.setMyLocationEnabled(true);
-
                 //Initialize user's location on Connect
                 Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
