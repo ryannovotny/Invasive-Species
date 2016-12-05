@@ -56,4 +56,11 @@ public class InvPolygonList{
 
         return rtrnPoly;
     }
+
+    /**
+     * Clears all data
+     */
+    public void clear(){
+        list.clear();
+    }
 }

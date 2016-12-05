@@ -78,8 +78,8 @@ public class DrawerActivity extends AppCompatActivity
     private static final int REQUEST_CODE_PERMISSION = 2;
 
     //Client-Server data
-    private final static String SERVER_IP = "192.168.2.3";
-    private final static String SERVER_PORT = ":4321";
+    private final static String SERVER_IP = "http://131.212.215.67";
+    private final static String SERVER_PORT = ":4096";
     private final static String MAP_DIRECTORY = "/mapdata";
     private final static String USER_DIRECTORY = "/userdata";
 
@@ -424,7 +424,7 @@ public class DrawerActivity extends AppCompatActivity
 
         String result;
         RestAsyncTask asyncTask = new RestAsyncTask();
-        asyncTask.execute("http://" + SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
+        asyncTask.execute(SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
 
         try {
             result = asyncTask.get();
@@ -433,16 +433,26 @@ public class DrawerActivity extends AppCompatActivity
             JSONObject jsonObject = new JSONObject(result);
             JSONArray jsonArray = (JSONArray)jsonObject.get("tiles");
 
-            /**terate through JSONArray and add tiles
+            //remove all polygons
+            clearPolygons();
+
+            /**iterate through JSONArray and add tiles
              * Starts at 1 to ignore initTile
              */
             for(int i = 1; i < jsonArray.length(); ++i){
 
                 JSONObject tile = (JSONObject) jsonArray.get(i);
+                JSONArray species = (JSONArray) jsonArray.getJSONObject(i).get("species");
+
+                ArrayList<String> list = new ArrayList<String>();
+                for(int e = 0; i < species.length(); ++e) {
+                    list.add((String) species.get(i));
+                }
 
                 Double dLat = (Double) tile.get("lat");
                 Double dLng = (Double) tile.get("lang");
 
+                pushPolygon(dLat, dLng, list);
             }
         }
         catch(ExecutionException err) {
@@ -464,28 +474,40 @@ public class DrawerActivity extends AppCompatActivity
      * @param dLat
      * @param dLng
      */
-    private void pushPolygon(double dLat, Double dLng) {
+    private void pushPolygon(double dLat, double dLng, ArrayList<String> species) {
 
         PolygonOptions squareOpt = new PolygonOptions()
                 .add(new LatLng(dLat, dLng),
                         new LatLng(dLat, dLng + .001),
                         new LatLng(dLat + .0005, dLng + .001),
                         new LatLng(dLat + .0005, dLng)) //set size
-                //.fillColor(0x40ff0000)// color red
-                //.fillColor(0x400ff000)// color green
-                .fillColor(0x00000000)// semi-transparent
                 .strokeColor(Color.BLUE)
                 .strokeWidth(1)
                 .clickable(true);
 
-        mMap.addPolygon(squareOpt);
+        if(species.size() == 0)
+            squareOpt.fillColor(0x00000000);// semi-transparent
+        else
+            squareOpt.fillColor(0x400ff000);// color green
+
+        //make data to track
+        InvPolygon track = new InvPolygon(dLat, dLng);
+        for(String string: species) {
+            track.addSpecies(string);
+        }
+
+        polygonList.add(mMap.addPolygon(squareOpt));
+        invPolygonList.add(track);
     }
 
     /**
      * Removes all polygons from the map
      */
     private void clearPolygons(){
-
+        for(Polygon polygon: polygonList){
+            polygon.remove();
+        }
+        invPolygonList.clear();
     }
 }
 

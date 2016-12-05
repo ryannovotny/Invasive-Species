@@ -43,8 +43,8 @@ public class LoginActivity extends AppCompatActivity{
     private View mLoginFormView;
 
     private final static String USER_DIRECTORY = "/userData";
-    private final static String SERVER_IP = "http://192.168.2.3";
-    private final static String SERVER_PORT = ":4321";
+    private final static String SERVER_IP = "http://131.212.215.67";
+    private final static String SERVER_PORT = ":4096";
 
 
 
@@ -323,7 +323,7 @@ public class LoginActivity extends AppCompatActivity{
             task.cancel(true);
         }
         catch(JSONException err){
-            Log.e("SignUp POST", "Error parsing JSON objecg");
+            Log.e("SignUp POST", "Error parsing JSON object");
         }
     }
 
