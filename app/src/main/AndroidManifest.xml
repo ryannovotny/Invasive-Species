@@ -26,7 +26,6 @@
         <activity android:name=".DrawerActivity"/>
         <activity android:name=".RecyclerViewActivity" />
         <activity android:name=".SettingsActivity" />
-        <activity android:name=".SpeciesActivity" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
