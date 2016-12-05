@@ -26,6 +26,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         TextView speciesDescription;
         ImageView speciesPhoto;
         TextView speciesRemove;
+        TextView Link;
 
         PersonViewHolder(View itemView) {
             super(itemView);
@@ -36,6 +37,7 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
             speciesDescription = (TextView)itemView.findViewById(R.id.species_description);
             speciesPhoto = (ImageView)itemView.findViewById(R.id.species_photo);
             speciesRemove= (TextView)itemView.findViewById(R.id.species_remove);
+            Link= (TextView)itemView.findViewById(R.id.link);
         }
     }
 
@@ -63,6 +65,8 @@ public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> 
         personViewHolder.speciesDescription.setText(species.get(i).description);
         personViewHolder.speciesPhoto.setImageResource(species.get(i).photoId);
         personViewHolder.speciesRemove.setText(species.get(i).remove);
+        personViewHolder.Link.setText(species.get(i).link);
+
 
     }
 

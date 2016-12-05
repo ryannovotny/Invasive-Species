@@ -54,6 +54,23 @@
             android:layout_below="@+id/species_description"
             android:textSize="20sp"
             android:textColorHighlight="#ff1a1a"
+            android:textColor="#262626"
+            android:typeface="normal"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/link"
+            android:layout_below="@+id/species_remove"
+            android:autoLink="web"
+            android:linksClickable="true"
+            android:textSize="20sp"
+            android:textColorHighlight="#ff1a1a"
+            android:textColor="#262626"
+            android:typeface="serif"
+            android:textStyle="italic"
+
             />
 
     </RelativeLayout>
