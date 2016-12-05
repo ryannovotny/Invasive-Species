@@ -42,14 +42,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
@@ -57,21 +50,24 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, OnMapLongClickListener {
+        LocationListener{
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Data
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    private Polygon mSquare;
-    private Marker mMarker;
+
+    //Lists of polygons for later access
+    private InvPolygonList invPolygonList = new InvPolygonList();
+    private ArrayList<Polygon> polygonList = new ArrayList<>();
 
     //For resolving connection issues
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -247,29 +243,6 @@ public class DrawerActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-    //make the circle be able to pop up when user clicks on the map
-    @Override
-    public void onMapLongClick(LatLng point) {
-        String s = point.toString();
-        String[] latLng = s.substring(10, s.length() - 1).split(",");
-        String sLat = latLng[0];
-        String sLng = latLng[1];
-        double dLat = Double.parseDouble(sLat);
-        double dLng = Double.parseDouble(sLng);
-        PolygonOptions squareOpt = new PolygonOptions()
-                .add(point, new LatLng(dLat,dLng+.001), new LatLng(dLat+.0005,dLng+.001), new LatLng(dLat+.0005,dLng)) //set size
-                .fillColor(0x40ff0000)  //semi-transparent
-                .strokeColor(Color.BLUE)
-                .strokeWidth(5);
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(new LatLng(dLat+.00025,dLng+.0005)) // set marker at the center of the circle
-                .title("Invasive Species")
-                .snippet(dLat+"/"+dLng)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));//marker color
-        mSquare = mMap.addPolygon(squareOpt);
-        mMarker = mMap.addMarker(markerOptions);
-
     }
 
     /**
@@ -470,18 +443,6 @@ public class DrawerActivity extends AppCompatActivity
                 Double dLat = (Double) tile.get("lat");
                 Double dLng = (Double) tile.get("lang");
 
-                PolygonOptions squareOpt = new PolygonOptions()
-                        .add(new LatLng(dLat, dLng),
-                                new LatLng(dLat, dLng + .001),
-                                new LatLng(dLat + .0005, dLng + .001),
-                                new LatLng(dLat + .0005, dLng)) //set size
-                        //.fillColor(0x40ff0000)// color red
-                        //.fillColor(0x400ff000)// color green
-                        .fillColor(0x00000000)// semi-transparent
-                        .strokeColor(Color.BLUE)
-                        .strokeWidth(1)
-                        .clickable(true);
-                mMap.addPolygon(squareOpt);
             }
         }
         catch(ExecutionException err) {
@@ -497,4 +458,34 @@ public class DrawerActivity extends AppCompatActivity
             err.printStackTrace();
         }
     }
+
+    /**
+     * Pushes or updates a polygon to map
+     * @param dLat
+     * @param dLng
+     */
+    private void pushPolygon(double dLat, Double dLng) {
+
+        PolygonOptions squareOpt = new PolygonOptions()
+                .add(new LatLng(dLat, dLng),
+                        new LatLng(dLat, dLng + .001),
+                        new LatLng(dLat + .0005, dLng + .001),
+                        new LatLng(dLat + .0005, dLng)) //set size
+                //.fillColor(0x40ff0000)// color red
+                //.fillColor(0x400ff000)// color green
+                .fillColor(0x00000000)// semi-transparent
+                .strokeColor(Color.BLUE)
+                .strokeWidth(1)
+                .clickable(true);
+
+        mMap.addPolygon(squareOpt);
+    }
+
+    /**
+     * Removes all polygons from the map
+     */
+    private void clearPolygons(){
+
+    }
 }
+
