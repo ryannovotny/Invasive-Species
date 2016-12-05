@@ -1,6 +1,27 @@
 <resources>
     <string name="app_name">Invasive Species</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_activity_login">Sign In</string>
+
+    <!-- BEGIN LOGIN SCREEN-->
+    <string name="error_invalid_password">Password Too Short</string>
+    <string name="error_field_required">Field Required</string>
+    <string name="error_invalid_email">Invalid Email</string>
+    <string name="error_incorrect_password">Incorrect Password</string>
+    <string name="error_incorrect_confirm_password">Incorrect Confirm Password</string>
+    <string name="permission_rationale">Request Permissions?</string>
+
+    <string name="log_in">LOG IN</string>
+    <string name="sign_up">SIGN UP</string>
+
+    <string name="prompt_email">Enter Email</string>
+    <string name="prompt_password">Enter Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="prompt_name">Enter Name</string>
+    <string name="action_sign_in">Sign In</string>
+    <string name="action_sign_in_short">SignIn</string>
+    <string name="action_sign_up">Sign Up</string>
+    <string name="action_sign_up_short">SignUp</string>
 
     <!-- BEGIN NAVIGATION DRAWER-->
     <string name="name">NAME</string>

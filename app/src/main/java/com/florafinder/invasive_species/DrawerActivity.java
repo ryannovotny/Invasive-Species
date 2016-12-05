@@ -82,7 +82,7 @@ public class DrawerActivity extends AppCompatActivity
     private static final int REQUEST_CODE_PERMISSION = 2;
 
     //Client-Server data
-    private final static String SERVER_IP = "131.212.215.62";
+    private final static String SERVER_IP = "192.168.2.3";
     private final static String SERVER_PORT = ":4321";
     private final static String MAP_DIRECTORY = "/mapdata";
     private final static String USER_DIRECTORY = "/userdata";
@@ -418,6 +418,8 @@ public class DrawerActivity extends AppCompatActivity
 
                 Log.d("Permissions:", "Fine and Coarse location permissions granted");
                 LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+                mMap.setMyLocationEnabled(true);
+
                 mMap.setMyLocationEnabled(true);
 
                 //Initialize user's location on Connect
