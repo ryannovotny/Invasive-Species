@@ -17,6 +17,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -44,7 +45,7 @@ public class LoginActivity extends AppCompatActivity{
     private View mLoginFormView;
 
     private final static String USER_DIRECTORY = "/userData";
-    private final static String SERVER_IP = "http://131.212.215.228";
+    private final static String SERVER_IP = "http://192.168.2.3";
     private final static String SERVER_PORT = ":4321";
 
 
@@ -192,13 +193,14 @@ public class LoginActivity extends AppCompatActivity{
         try {
             result = task.get();
             jsonObject = new JSONObject(result);
+            JSONArray jsonArray = (JSONArray) jsonObject.get("results");
 
             //Email is not registered
-            if(!email.equals(jsonObject.get("email"))) {
+            if(!email.equals(jsonArray.getJSONObject(1).get("email"))) {
                 mEmailView.setError(getString(R.string.error_invalid_email));
             }
             //Password is incorrect
-            else if(!password.equals(jsonObject.get("password"))) {
+            else if(!password.equals(jsonArray.getJSONObject(1).get("password"))) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
             }
             //Connection successful, push intent
