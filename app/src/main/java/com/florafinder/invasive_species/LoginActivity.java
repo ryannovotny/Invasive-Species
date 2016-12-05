@@ -28,8 +28,6 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  * TODO: Implement our  own server for authentication
- * TODO: Rewrite activity to extend our own REST async task
- * TODO: Afterwards, make this activity the main activity
  */
 public class LoginActivity extends AppCompatActivity{
 
