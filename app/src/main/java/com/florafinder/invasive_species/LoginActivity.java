@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity{
 
     private final static String USER_DIRECTORY = "/userData";
     private final static String SERVER_IP = "http://192.168.2.3";
-    private final static String SERVER_PORT = ":4321";
+    private final static String SERVER_PORT = ":4096";
 
 
 
@@ -177,7 +177,7 @@ public class LoginActivity extends AppCompatActivity{
         String result = null;
         RestAsyncTask task = new RestAsyncTask();
         JSONObject jsonObject = new JSONObject();
-        Intent startMapIntent = new Intent(LoginActivity.this, DrawerActivity.class);
+        Intent startMapIntent = new Intent(LoginActivity.this, MainActivity.class);
 
         try {
             jsonObject.put("email", email);
@@ -293,7 +293,7 @@ public class LoginActivity extends AppCompatActivity{
      */
     private void attemptSignUpConnect(String name, String password, String email){
 
-        Intent intent = new Intent(LoginActivity.this, DrawerActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         RestAsyncTask task = new RestAsyncTask();
 
         try {
