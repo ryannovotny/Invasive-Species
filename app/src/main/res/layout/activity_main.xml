@@ -29,8 +29,8 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         app:itemBackground="@color/colorPrimary"
-        app:itemIconTint="#FFFFFF"
-        app:itemTextColor="#FFFFFF"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
         app:menu="@menu/bottom_navigation_menu"
         android:layout_alignParentBottom="true">
     </android.support.design.widget.BottomNavigationView>
