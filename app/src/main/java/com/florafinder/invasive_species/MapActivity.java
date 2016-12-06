@@ -1,37 +1,16 @@
 package com.florafinder.invasive_species;
 
-import android.*;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.app.FragmentManager;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-import android.graphics.Color;
+import android.util.Log;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -39,17 +18,12 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
-import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
-import com.google.android.gms.maps.GoogleMap.OnMapLongClickListener;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
 
@@ -59,14 +33,15 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-public class DrawerActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
+/**
+ * Created by ryano on 12/5/2016.
+ */
+
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, OnMapLongClickListener {
+        LocationListener, GoogleMap.OnMapLongClickListener {
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    //                              Private Data
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
@@ -88,48 +63,8 @@ public class DrawerActivity extends AppCompatActivity
     private final static String USER_DIRECTORY = "/userdata";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_drawer);
-
-        //***********************************LAYOUT AND UI START***********************************
-
-        //Sets up the Toolbar and makes it the ActionBar
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        //Sets up the floating action "menu" for button expansion with minis. After, creates
-        //onClick event handlers for us to implement new actions
-        final FloatingActionsMenu menuMultipleActions = (FloatingActionsMenu) findViewById(R.id.multiple_actions);
-        findViewById(R.id.add_marker).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast toast = Toast.makeText(DrawerActivity.this, "Add", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-        findViewById(R.id.filter).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast toast = Toast.makeText(DrawerActivity.this, "Filter", Toast.LENGTH_SHORT);
-                toast.show();
-            }
-        });
-
-        //Initializes the drawer layout and assigns some event handlers
-        //to it for opening and closing the drawer
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
-
-        //Initializes the drawer view so that the drawer works
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-        //***************************************END***********************************************
-
-        //***********************************MAPS START********************************************
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -190,64 +125,6 @@ public class DrawerActivity extends AppCompatActivity
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
-    //Overrides system's onBackPress (tapping the back button on the phone) to simply
-    //close the drawer if it is open
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    //Inflates the navigation drawers menu options (Settings, Grid Toggle, etc.)
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.drawer, menu);
-        return true;
-    }
-
-    //Click events for the ActionBar (Three dots, Search...)
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
-            Toast toast = Toast.makeText(this, "Search will be implemented later", Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    //Click events for when an item is selected in the Navigation Drawer
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_map) {
-            Toast toast = Toast.makeText(this, "Open the map fragment activity", Toast.LENGTH_SHORT);
-            toast.show();
-        } else if (id == R.id.nav_species) {
-            Intent intentSpecies = new Intent(DrawerActivity.this, RecyclerViewActivity.class);
-            startActivity(intentSpecies);
-        } else if (id == R.id.nav_toggle) {
-            Toast toast = Toast.makeText(this, "Toggle the grid overlay on or off", Toast.LENGTH_SHORT);
-            toast.show();
-        } else if (id == R.id.nav_settings) {
-            Intent intentSettings = new Intent(DrawerActivity.this, SettingsActivity.class);
-            startActivity(intentSettings);
-        }
-
-        //Closes the drawer when an option is selected
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
     //make the circle be able to pop up when user clicks on the map
     @Override
     public void onMapLongClick(LatLng point) {
@@ -273,14 +150,14 @@ public class DrawerActivity extends AppCompatActivity
     }
 
     /**
-    * Sets up the map and connects the GoogleApiClient
-    * Method is designed this way to ensure that the map is ready
-    * on location update
-    */
+     * Sets up the map and connects the GoogleApiClient
+     * Method is designed this way to ensure that the map is ready
+     * on location update
+     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-       // mMap.setOnMapLongClickListener(this);
+        // mMap.setOnMapLongClickListener(this);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
         //initialize tiles
