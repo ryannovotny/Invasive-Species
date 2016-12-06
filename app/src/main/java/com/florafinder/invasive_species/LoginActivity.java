@@ -29,8 +29,6 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  * TODO: Implement our  own server for authentication
- * TODO: Rewrite activity to extend our own REST async task
- * TODO: Afterwards, make this activity the main activity
  */
 public class LoginActivity extends AppCompatActivity{
 
@@ -329,7 +327,7 @@ public class LoginActivity extends AppCompatActivity{
             task.cancel(true);
         }
         catch(JSONException err){
-            Log.e("SignUp POST", "Error parsing JSON objecg");
+            Log.e("SignUp POST", "Error parsing JSON object");
         }
     }
 

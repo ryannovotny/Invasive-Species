@@ -57,12 +57,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    //                              Private Data
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    private Polygon mSquare;
-    private Marker mMarker;
 
+    //Lists of polygons for later access
     private InvPolygonList invPolygonList = new InvPolygonList();
     private ArrayList<Polygon> polygonList = new ArrayList<>();
 
@@ -502,3 +503,46 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         void onFragmentInteraction(Uri uri);
     }
 }
+
+    /**
+     * Pushes or updates a polygon to map
+     * @param dLat
+     * @param dLng
+     */
+    private void pushPolygon(double dLat, double dLng, ArrayList<String> species) {
+
+        PolygonOptions squareOpt = new PolygonOptions()
+                .add(new LatLng(dLat, dLng),
+                        new LatLng(dLat, dLng + .001),
+                        new LatLng(dLat + .0005, dLng + .001),
+                        new LatLng(dLat + .0005, dLng)) //set size
+                .strokeColor(Color.BLUE)
+                .strokeWidth(1)
+                .clickable(true);
+
+        if(species.size() == 0)
+            squareOpt.fillColor(0x00000000);// semi-transparent
+        else
+            squareOpt.fillColor(0x400ff000);// color green
+
+        //make data to track
+        InvPolygon track = new InvPolygon(dLat, dLng);
+        for(String string: species) {
+            track.addSpecies(string);
+        }
+
+        polygonList.add(mMap.addPolygon(squareOpt));
+        invPolygonList.add(track);
+    }
+
+    /**
+     * Removes all polygons from the map
+     */
+    private void clearPolygons(){
+        for(Polygon polygon: polygonList){
+            polygon.remove();
+        }
+        invPolygonList.clear();
+    }
+}
+

@@ -25,7 +25,8 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"/>
         <activity
-            android:name=".LoginActivity">
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,6 +44,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".SpeciesPickerActivity"
+            android:label="@string/title_activity_species_picker"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
