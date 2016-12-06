@@ -1,7 +1,6 @@
 package com.florafinder.invasive_species;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
