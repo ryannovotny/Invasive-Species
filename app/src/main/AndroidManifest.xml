@@ -45,10 +45,7 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".SpeciesPickerActivity"
-            android:label="@string/title_activity_species_picker"
-            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".SpeciesPickerActivity" />
     </application>
 
 </manifest>
