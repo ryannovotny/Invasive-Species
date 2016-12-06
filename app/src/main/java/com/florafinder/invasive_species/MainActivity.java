@@ -57,10 +57,10 @@ public class MainActivity extends FragmentActivity implements
             }
         });
 
-        fragment = new MapFragment();
+        //fragment = new MapFragment();
         toolbar.setTitle(R.string.map);
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_container, fragment).commit();
+        //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        //transaction.replace(R.id.main_container, fragment).commit();
     }
 
     @Override
