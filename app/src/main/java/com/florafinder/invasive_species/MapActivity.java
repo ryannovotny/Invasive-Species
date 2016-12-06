@@ -33,10 +33,6 @@ import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
 
-/**
- * Created by ryano on 12/5/2016.
- */
-
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
