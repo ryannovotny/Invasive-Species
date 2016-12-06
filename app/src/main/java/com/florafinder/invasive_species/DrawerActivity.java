@@ -266,6 +266,12 @@ public class DrawerActivity extends AppCompatActivity
                 DialogActivity dialogActivity = new DialogActivity();
                 dialogActivity.show(getSupportFragmentManager(), "tag");
                 polygon.setFillColor(0x40ff0000);
+
+                Intent intent = new Intent();
+                LatLng ltlng = polygon.getPoints().get(0);
+                intent.putExtra("lat", ltlng.latitude);
+                intent.putExtra("lang", ltlng.longitude);
+                startActivity(intent);
             }
         });
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
