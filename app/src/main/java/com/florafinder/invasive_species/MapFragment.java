@@ -72,8 +72,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private static final int REQUEST_CODE_PERMISSION = 2;
 
     //Client-Server data
-    private final static String SERVER_IP = "192.168.2.3";
-    private final static String SERVER_PORT = ":4096";
+    private final static String SERVER_IP = "https://lempo.d.umn.edu";
+    private final static String SERVER_PORT = ":4097";
     private final static String MAP_DIRECTORY = "/mapdata";
     private final static String USER_DIRECTORY = "/userdata";
 
