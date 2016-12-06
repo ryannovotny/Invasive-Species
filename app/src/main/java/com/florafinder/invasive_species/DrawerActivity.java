@@ -369,6 +369,7 @@ public class DrawerActivity extends AppCompatActivity
     * Method is designed this way to ensure that the map is ready
     * on location update
     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
