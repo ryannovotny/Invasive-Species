@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/cv"
-    cardView:cardCornerRadius="10dp"
+    cardView:cardCornerRadius="2dp"
     cardView:cardUseCompatPadding="true"
     android:layout_marginBottom="2dip"
     android:layout_marginTop="2dip"
@@ -22,16 +22,16 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:id="@+id/species_photo"
-            android:layout_alignParentTop="true"
-            />
+            android:layout_alignParentTop="true" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/species_name"
             android:layout_below="@+id/species_photo"
-            android:textSize="36sp"
+            android:textSize="24sp"
             android:textStyle="italic"
             android:typeface="serif"
             android:textColor="#000000"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/species_description"
             android:layout_below="@+id/species_name"
-            android:textSize="22sp"
+            android:textSize="14sp"
             android:typeface="serif"
             android:textColor="#262626"
             />
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/species_remove"
             android:layout_below="@+id/species_description"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:textColorHighlight="#ff1a1a"
             android:textColor="#262626"
             android:typeface="normal"
@@ -65,7 +65,7 @@
             android:layout_below="@+id/species_remove"
             android:autoLink="web"
             android:linksClickable="true"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:textColorHighlight="#ff1a1a"
             android:textColor="#262626"
             android:typeface="serif"
