@@ -7,10 +7,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 
-/**
- * Created by ryano on 11/14/2016.
- */
-
 public class DialogActivity extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

@@ -1,11 +1,6 @@
 package com.florafinder.invasive_species;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-/**
- * Created by Fitzy on 12/5/2016.
- */
 
 public class InvPolygonList{
 

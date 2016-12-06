@@ -1,9 +1,5 @@
 package com.florafinder.invasive_species;
 
-/**
- * Created by lando on 11/12/2016.
- */
-
 import android.graphics.Color;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
-
-import static com.florafinder.invasive_species.R.string.species;
 
 public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 

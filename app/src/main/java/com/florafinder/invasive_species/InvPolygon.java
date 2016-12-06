@@ -1,7 +1,5 @@
 package com.florafinder.invasive_species;
 
-import com.google.android.gms.maps.model.Polygon;
-
 import java.util.ArrayList;
 
 public class InvPolygon{
