@@ -8,10 +8,10 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:statusBarColor">@android:color/transparent</item>-->
-   </style>
+    </style>
 
-   <style name="AppThemeToolbar" parent="Theme.AppCompat.Light.NoActionBar">
-       <!-- Customize your theme here. -->
+    <style name="AppThemeToolbar" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
         <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 

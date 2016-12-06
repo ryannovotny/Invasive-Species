@@ -23,7 +23,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DrawerActivity"/>
+        <activity android:name=".DrawerActivity" />
         <activity android:name=".RecyclerViewActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".SpeciesActivity" />
@@ -47,6 +47,11 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".SpeciesPickerActivity"
+            android:label="@string/title_activity_species_picker"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
