@@ -1,12 +1,8 @@
 package com.florafinder.invasive_species;
 
-import android.*;
 import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
@@ -16,23 +12,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-import android.graphics.Color;
+import android.view.ViewGroup;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -210,7 +194,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             public void onPolygonClick(Polygon polygon) {
                 polygon.setFillColor(0x40ff0000);
 
-                Intent intent = new Intent(DrawerActivity.this, SpeciesPickerActivity.class);
+                Intent intent = new Intent(getActivity(), SpeciesPickerActivity.class);
                 LatLng ltlng = polygon.getPoints().get(0);
                 intent.putExtra("lat", ltlng.latitude);
                 intent.putExtra("lang", ltlng.longitude);
@@ -304,7 +288,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
      * @param data
      */
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,
+    public void onActivityResult(int requestCode, int resultCode,
                                     Intent data){
 
         Log.d("INTENT RESULT", "Result being handled");
@@ -509,7 +493,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             err.printStackTrace();
         }
     }
-}
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

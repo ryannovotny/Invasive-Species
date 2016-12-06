@@ -15,12 +15,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-/**
- * AsyncTask class that handles REST calls to server
- * by invasive species app
- * Created by Edward FitzSimons on 11/10/2016.
- */
-
 public class RestAsyncTask extends AsyncTask<String, Integer, String> {
 
     ////////////////////////////////////////////////////////////////////////////////////////

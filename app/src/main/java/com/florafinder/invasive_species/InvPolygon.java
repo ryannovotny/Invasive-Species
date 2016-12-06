@@ -1,13 +1,6 @@
 package com.florafinder.invasive_species;
 
-import com.google.android.gms.maps.model.Polygon;
-
 import java.util.ArrayList;
-
-/**
- * Tracks a polygon and store data associated with it
- * Created by Fitzy on 12/5/2016.
- */
 
 public class InvPolygon{
 
