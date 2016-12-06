@@ -8,16 +8,13 @@
     cardView:cardCornerRadius="2dp"
     cardView:cardUseCompatPadding="true"
     android:layout_marginBottom="2dip"
-    android:layout_marginTop="2dip"
-    >
+    android:layout_marginTop="2dip">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:scaleType = "centerCrop"
-
-        >
+        android:scaleType = "centerCrop">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -34,8 +31,7 @@
             android:textSize="24sp"
             android:textStyle="italic"
             android:typeface="serif"
-            android:textColor="#000000"
-            />
+            android:textColor="@color/speciesTextColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,8 +40,7 @@
             android:layout_below="@+id/species_name"
             android:textSize="14sp"
             android:typeface="serif"
-            android:textColor="#262626"
-            />
+            android:textColor="@color/speciesTextColor" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,10 +48,9 @@
             android:id="@+id/species_remove"
             android:layout_below="@+id/species_description"
             android:textSize="14sp"
-            android:textColorHighlight="#ff1a1a"
-            android:textColor="#262626"
-            android:typeface="normal"
-            />
+            android:textColorHighlight="@color/textColorHighlight"
+            android:textColor="@color/speciesTextColor"
+            android:typeface="normal" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -66,12 +60,10 @@
             android:autoLink="web"
             android:linksClickable="true"
             android:textSize="14sp"
-            android:textColorHighlight="#ff1a1a"
-            android:textColor="#262626"
+            android:textColorHighlight="@color/textColorHighlight"
+            android:textColor="@color/speciesTextColor"
             android:typeface="serif"
-            android:textStyle="italic"
-
-            />
+            android:textStyle="italic" />
 
     </RelativeLayout>
 
