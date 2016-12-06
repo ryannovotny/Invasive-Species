@@ -1,6 +1,7 @@
 package com.florafinder.invasive_species;
 
 import android.*;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -263,15 +264,13 @@ public class DrawerActivity extends AppCompatActivity
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
             public void onPolygonClick(Polygon polygon) {
-                DialogActivity dialogActivity = new DialogActivity();
-                dialogActivity.show(getSupportFragmentManager(), "tag");
                 polygon.setFillColor(0x40ff0000);
 
-                Intent intent = new Intent();
+                Intent intent = new Intent(DrawerActivity.this, SpeciesPickerActivity.class);
                 LatLng ltlng = polygon.getPoints().get(0);
                 intent.putExtra("lat", ltlng.latitude);
                 intent.putExtra("lang", ltlng.longitude);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
@@ -353,6 +352,30 @@ public class DrawerActivity extends AppCompatActivity
             }
         }
     }
+
+    /**
+     * Handles returning data from intent sent to specieslist
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode,
+                                    Intent data){
+
+        Log.d("INTENT RESULT", "Result being handled");
+        if(requestCode == 1){
+            if(resultCode == Activity.RESULT_OK) {
+                Log.d("INTENT RESULT", "Result retrieved");
+
+                InvPolygon tile = invPolygonList.getTile(data.getDoubleExtra("lat", 0), data.getDoubleExtra("lang", 0));
+                tile.addSpecies(data.getStringExtra("species"));
+
+                postTile(tile);
+            }
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Methods
 
@@ -514,6 +537,33 @@ public class DrawerActivity extends AppCompatActivity
             polygon.remove();
         }
         invPolygonList.clear();
+    }
+
+    /**
+     * Posts a tile to the server to update
+     * @param tile
+     */
+    private void postTile(InvPolygon tile){
+
+        try{
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("lat", tile.getLat());
+            jsonObject.put("lang", tile.getLang());
+            JSONArray jsonArray = new JSONArray();
+
+            for(String string: tile.getSpeciesList()){
+                jsonArray.put(string);
+            }
+            jsonObject.put("species", jsonArray);
+
+            RestAsyncTask asyncTask = new RestAsyncTask();
+            asyncTask.execute(SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "POST", jsonObject.toString());
+            Log.d("mapPOST","Tile posted to server");
+        }
+        catch (JSONException err){
+            Log.e("/mapdata POST", "Error parsing JSON");
+            err.printStackTrace();
+        }
     }
 }
 

@@ -43,4 +43,12 @@ public class InvPolygon{
             speciesList.add(name);
         }
     }
+
+    /**
+     * Getter method for list of species names this tile is tracking
+     * @return
+     */
+    public ArrayList<String> getSpeciesList(){
+        return this.speciesList;
+    }
 }
