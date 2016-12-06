@@ -49,8 +49,6 @@ public class LoginActivity extends AppCompatActivity{
     private final static String SERVER_IP = "https://lempo.d.umn.edu";
     private final static String SERVER_PORT = ":4097";
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
