@@ -196,11 +196,11 @@ public class LoginActivity extends AppCompatActivity{
             JSONArray jsonArray = (JSONArray) jsonObject.get("results");
 
             //Email is not registered
-            if(!email.equals(jsonArray.getJSONObject(1).get("email"))) {
+            if(!email.equals(jsonArray.getJSONObject(0).get("email"))) {
                 mEmailView.setError(getString(R.string.error_invalid_email));
             }
             //Password is incorrect
-            else if(!password.equals(jsonArray.getJSONObject(1).get("password"))) {
+            else if(!password.equals(jsonArray.getJSONObject(0).get("password"))) {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
             }
             //Connection successful, push intent
