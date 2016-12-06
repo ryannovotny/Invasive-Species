@@ -1,14 +1,35 @@
 package com.florafinder.invasive_species;
 
 import android.*;
+import android.Manifest;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.app.FragmentManager;
+import android.content.IntentFilter;
 import android.content.IntentSender;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.database.DatabaseErrorHandler;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.UserHandle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +37,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,11 +50,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.SystemClock;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
+
+
 
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
@@ -63,7 +106,7 @@ public class DrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, OnMapLongClickListener {
+        LocationListener {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     //                              Private Data
@@ -72,18 +115,34 @@ public class DrawerActivity extends AppCompatActivity
     private LocationRequest mLocationRequest;
     private Polygon mSquare;
     private Marker mMarker;
+    private TextView time;
+    private long starttime = 0L;
+    private long timeInMilliseconds = 0L;
+    private long timeSwapBuff = 0L;
+    private long updatedtime = 0L;
+    private int t = 1;
+    private int secs = 0;
+    private int mins = 0;
+    private int hours = 0;
+    private int days = 0;
+    private int milliseconds = 0;
+    private String times;
+    private Handler handler = new Handler();
+
+
+
 
     //For resolving connection issues
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
     //Data involving permissions
-    private final static String permissionFine = android.Manifest.permission.ACCESS_FINE_LOCATION;
-    private final static String permissionCoarse = android.Manifest.permission.ACCESS_COARSE_LOCATION;
+    private final static String permissionFine = Manifest.permission.ACCESS_FINE_LOCATION;
+    private final static String permissionCoarse = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int REQUEST_CODE_PERMISSION = 2;
 
     //Client-Server data
     private final static String SERVER_IP = "192.168.2.3";
-    private final static String SERVER_PORT = ":4321";
+    private final static String SERVER_PORT = ":4096";
     private final static String MAP_DIRECTORY = "/mapdata";
     private final static String USER_DIRECTORY = "/userdata";
 
@@ -141,11 +200,13 @@ public class DrawerActivity extends AppCompatActivity
 
         //******************************LOCATION HANDLING START************************************
         // Create GoogleApiClient object
+        // ATTENTION: This "addApi(AppIndex.API)"was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
-                .build();
+                .addApi(AppIndex.API).build();
 
         // Create a LocationRequest object
         mLocationRequest = LocationRequest.create()
@@ -184,10 +245,15 @@ public class DrawerActivity extends AppCompatActivity
      * When the app is stopped, stop requesting location updates
      */
     @Override
-    protected void onStop(){
-        super.onStop();
-        Log.d("Lifecycle","Map activity stopped");
+    protected void onStop() {
+        super.onStop();// ATTENTION: This was auto-generated to implement the App Indexing API.
+// See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(mGoogleApiClient, getIndexApiAction());
+        Log.d("Lifecycle", "Map activity stopped");
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        mGoogleApiClient.disconnect();
     }
 
     //Overrides system's onBackPress (tapping the back button on the phone) to simply
@@ -249,29 +315,55 @@ public class DrawerActivity extends AppCompatActivity
         return true;
     }
     //make the circle be able to pop up when user clicks on the map
-    @Override
-    public void onMapLongClick(LatLng point) {
-        String s = point.toString();
-        String[] latLng = s.substring(10, s.length() - 1).split(",");
-        String sLat = latLng[0];
-        String sLng = latLng[1];
-        double dLat = Double.parseDouble(sLat);
-        double dLng = Double.parseDouble(sLng);
-        PolygonOptions squareOpt = new PolygonOptions()
-                .add(point, new LatLng(dLat,dLng+.001), new LatLng(dLat+.0005,dLng+.001), new LatLng(dLat+.0005,dLng)) //set size
-                .fillColor(0x40ff0000)  //semi-transparent
-                .strokeColor(Color.BLUE)
-                .strokeWidth(5);
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(new LatLng(dLat+.00025,dLng+.0005)) // set marker at the center of the circle
-                .title("Invasive Species")
-                .snippet(dLat+"/"+dLng)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));//marker color
-        mSquare = mMap.addPolygon(squareOpt);
-        mMarker = mMap.addMarker(markerOptions);
+//    @Override
+//    public void onMapLongClick(LatLng point) {
+//        String s = point.toString();
+//        String[] latLng = s.substring(10, s.length() - 1).split(",");
+//        String sLat = latLng[0];
+//        String sLng = latLng[1];
+//        double dLat = Double.parseDouble(sLat);
+//        double dLng = Double.parseDouble(sLng);
+//        PolygonOptions squareOpt = new PolygonOptions()
+//                .add(point, new LatLng(dLat,dLng+.001), new LatLng(dLat+.0005,dLng+.001), new LatLng(dLat+.0005,dLng)) //set size
+//                .fillColor(0x40ff0000)  //semi-transparent
+//                .strokeColor(Color.BLUE)
+//                .strokeWidth(5);
+//        MarkerOptions markerOptions = new MarkerOptions()
+//                .position(new LatLng(dLat+.00025,dLng+.0005)) // set marker at the center of the circle
+//                .title("Invasive Species")
+//                .snippet(dLat+"/"+dLng)
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));//marker color
+//        mSquare = mMap.addPolygon(squareOpt);
+//        mMarker = mMap.addMarker(markerOptions);
+//
+//    }
 
-    }
 
+
+
+    public Runnable updateTimer = new Runnable() {
+
+        public void run() {
+
+            timeInMilliseconds = SystemClock.uptimeMillis() - starttime;
+
+            updatedtime = timeSwapBuff + timeInMilliseconds;
+
+            secs = (int) (updatedtime / 1000);
+            mins = secs / 60;
+            hours = mins / 60;
+            days = hours / 24;
+            secs = secs % 60;
+            milliseconds = (int) (updatedtime % 1000);
+            time.setText("" + days + ":"
+                    + "" + hours + ":"
+                    + "" + mins + ":"
+                    + String.format("%02d", secs) + ":"
+                    + String.format("%03d", milliseconds));
+            handler.postDelayed(this, 0);
+        }
+
+    };
     /**
     * Sets up the map and connects the GoogleApiClient
     * Method is designed this way to ensure that the map is ready
@@ -282,10 +374,8 @@ public class DrawerActivity extends AppCompatActivity
         mMap = googleMap;
        // mMap.setOnMapLongClickListener(this);
         mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
         //initialize tiles
         mapGET();
-
         //Initialize onClick listener
         mMap.setOnPolygonClickListener(new GoogleMap.OnPolygonClickListener() {
             @Override
@@ -293,11 +383,47 @@ public class DrawerActivity extends AppCompatActivity
                 DialogActivity dialogActivity = new DialogActivity();
                 dialogActivity.show(getSupportFragmentManager(), "tag");
                 polygon.setFillColor(0x40ff0000);
+                if (days == 10){
+                    polygon.setFillColor(0x7fffff00);
+                }
+                mMap.setOnMapClickListener(new OnMapClickListener(){
+                    @Override
+                    public void onMapClick(LatLng point) {
+                        MarkerOptions markerOptions = new MarkerOptions()
+                                .position(point) // set marker at the center of the circle
+                                .title("Invasive Species")
+                                .snippet(times)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                        mMarker = mMap.addMarker(markerOptions);
+                    }
+
+                });
+                mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker){
+                        starttime = 0L;
+                        timeInMilliseconds = 0L;
+                        timeSwapBuff = 0L;
+                        updatedtime = 0L;
+                        t = 1;
+                        secs = 0;
+                        mins = 0;
+                        milliseconds = 0;
+                        handler.removeCallbacks(updateTimer);
+                        time.setText("00:00:00:00:00");
+                        times = time.getText().toString();
+                        return true;
+                    }
+                });
             }
+
         });
+
         Log.d("onMapReady:", "Attempting to connect to GoogleApiClient");
         mGoogleApiClient.connect();
     }
+
+
 
     /**
      * Upon connection to location services
@@ -496,5 +622,31 @@ public class DrawerActivity extends AppCompatActivity
             Log.e("/mapdata GET", "Error parsing JSON");
             err.printStackTrace();
         }
+    }
+
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Drawer Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        mGoogleApiClient.connect();
+        AppIndex.AppIndexApi.start(mGoogleApiClient, getIndexApiAction());
     }
 }
