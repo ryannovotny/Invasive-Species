@@ -8,10 +8,18 @@
     tools:context="com.florafinder.invasive_species.SpeciesPickerActivity"
     tools:showIn="@layout/activity_species_picker">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        <ListView
+            android:id="@+id/list_species"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:drawSelectorOnTop="false"
+            android:onClick="returnToMap"
+            />
+    </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>
