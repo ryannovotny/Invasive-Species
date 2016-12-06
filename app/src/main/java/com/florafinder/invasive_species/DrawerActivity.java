@@ -78,8 +78,8 @@ public class DrawerActivity extends AppCompatActivity
     private static final int REQUEST_CODE_PERMISSION = 2;
 
     //Client-Server data
-    private final static String SERVER_IP = "http://131.212.215.67";
-    private final static String SERVER_PORT = ":4096";
+    private final static String SERVER_IP = "https://lempo.d.umn.edu";
+    private final static String SERVER_PORT = ":4097";
     private final static String MAP_DIRECTORY = "/mapdata";
     private final static String USER_DIRECTORY = "/userdata";
 
