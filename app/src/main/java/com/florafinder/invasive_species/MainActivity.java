@@ -16,16 +16,15 @@ import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity implements
         MapFragment.OnFragmentInteractionListener, SpeciesFragment.OnFragmentInteractionListener,
-        AppCompatCallback {
+        SettingsFragment.OnFragmentInteractionListener, AppCompatCallback {
 
     private Fragment fragment;
-    private AppCompatDelegate delegate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        delegate = AppCompatDelegate.create(this, this);
+        AppCompatDelegate delegate = AppCompatDelegate.create(this, this);
         delegate.onCreate(savedInstanceState);
         delegate.setContentView(R.layout.activity_main);
 
@@ -47,12 +46,13 @@ public class MainActivity extends FragmentActivity implements
                         toolbar.setTitle(R.string.species);
                         break;
                     case R.id.bottom_nav_settings:
-
+                        fragment = new SettingsFragment();
+                        toolbar.setTitle(R.string.settings);
                         break;
                 }
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 transaction.replace(R.id.main_container, fragment).commit();
-                //transaction.setTransition()
                 return true;
             }
         });
