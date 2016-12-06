@@ -36,6 +36,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 
@@ -61,6 +62,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private LocationRequest mLocationRequest;
     private Polygon mSquare;
     private Marker mMarker;
+
+    private InvPolygonList invPolygonList = new InvPolygonList();
+    private ArrayList<Polygon> polygonList = new ArrayList<>();
 
     //For resolving connection issues
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
@@ -373,7 +377,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
         String result;
         RestAsyncTask asyncTask = new RestAsyncTask();
-        asyncTask.execute("http://" + SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
+        asyncTask.execute(SERVER_IP + SERVER_PORT + MAP_DIRECTORY, "GET");
 
         try {
             result = asyncTask.get();
@@ -382,28 +386,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             JSONObject jsonObject = new JSONObject(result);
             JSONArray jsonArray = (JSONArray)jsonObject.get("tiles");
 
-            /**terate through JSONArray and add tiles
+            //remove all polygons
+            clearPolygons();
+
+            /**iterate through JSONArray and add tiles
              * Starts at 1 to ignore initTile
              */
             for(int i = 1; i < jsonArray.length(); ++i){
 
                 JSONObject tile = (JSONObject) jsonArray.get(i);
+                JSONArray species = (JSONArray) jsonArray.getJSONObject(i).get("species");
+
+                ArrayList<String> list = new ArrayList<String>();
+                for(int e = 0; i < species.length(); ++e) {
+                    list.add((String) species.get(i));
+                }
 
                 Double dLat = (Double) tile.get("lat");
                 Double dLng = (Double) tile.get("lang");
 
-                PolygonOptions squareOpt = new PolygonOptions()
-                        .add(new LatLng(dLat, dLng),
-                                new LatLng(dLat, dLng + .001),
-                                new LatLng(dLat + .0005, dLng + .001),
-                                new LatLng(dLat + .0005, dLng)) //set size
-                        //.fillColor(0x40ff0000)// color red
-                        //.fillColor(0x400ff000)// color green
-                        .fillColor(0x00000000)// semi-transparent
-                        .strokeColor(Color.BLUE)
-                        .strokeWidth(1)
-                        .clickable(true);
-                mMap.addPolygon(squareOpt);
+                pushPolygon(dLat, dLng, list);
             }
         }
         catch(ExecutionException err) {
@@ -418,6 +420,47 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             Log.e("/mapdata GET", "Error parsing JSON");
             err.printStackTrace();
         }
+    }
+
+    /**
+     * Pushes or updates a polygon to map
+     * @param dLat
+     * @param dLng
+     */
+    private void pushPolygon(double dLat, double dLng, ArrayList<String> species) {
+
+        PolygonOptions squareOpt = new PolygonOptions()
+                .add(new LatLng(dLat, dLng),
+                        new LatLng(dLat, dLng + .001),
+                        new LatLng(dLat + .0005, dLng + .001),
+                        new LatLng(dLat + .0005, dLng)) //set size
+                .strokeColor(Color.BLUE)
+                .strokeWidth(1)
+                .clickable(true);
+
+        if(species.size() == 0)
+            squareOpt.fillColor(0x00000000);// semi-transparent
+        else
+            squareOpt.fillColor(0x400ff000);// color green
+
+        //make data to track
+        InvPolygon track = new InvPolygon(dLat, dLng);
+        for(String string: species) {
+            track.addSpecies(string);
+        }
+
+        polygonList.add(mMap.addPolygon(squareOpt));
+        invPolygonList.add(track);
+    }
+
+    /**
+     * Removes all polygons from the map
+     */
+    private void clearPolygons(){
+        for(Polygon polygon: polygonList){
+            polygon.remove();
+        }
+        invPolygonList.clear();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
