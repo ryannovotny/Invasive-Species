@@ -1,6 +1,13 @@
 package com.florafinder.invasive_species;
 
+import com.google.android.gms.maps.model.Polygon;
+
 import java.util.ArrayList;
+
+/**
+ * Tracks a polygon and store data associated with it
+ * Created by Fitzy on 12/5/2016.
+ */
 
 public class InvPolygon{
 
@@ -35,5 +42,13 @@ public class InvPolygon{
         if(speciesList.contains(name)){
             speciesList.add(name);
         }
+    }
+
+    /**
+     * Getter method for list of species names this tile is tracking
+     * @return
+     */
+    public ArrayList<String> getSpeciesList(){
+        return this.speciesList;
     }
 }

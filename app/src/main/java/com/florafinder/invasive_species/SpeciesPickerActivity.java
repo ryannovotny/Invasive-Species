@@ -7,10 +7,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -36,6 +41,7 @@ public class SpeciesPickerActivity extends AppCompatActivity {
 
         lat = getIntent().getExtras().getDouble("lat");
         lang = getIntent().getExtras().getDouble("lang");
+        setUpList();
     }
 
     private void setUpList(){
@@ -51,19 +57,28 @@ public class SpeciesPickerActivity extends AppCompatActivity {
 
         final ArrayAdapter adapter = new ArrayAdapter(this, R.layout.list_item, listStrings);
         view.setAdapter(adapter);
+
+        view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                returnToMap(((TextView) view).getText().toString());
+            }
+        });
     }
 
     /**
      * Return to the map with a selected string
-     * @param view
+     * @param string
      */
-    public void returnToMap(View view){
+    public void returnToMap(String string){
 
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("species", ((TextView) view).getText());
+        returnIntent.putExtra("species", string);
         returnIntent.putExtra("lat", lat);
         returnIntent.putExtra("lang", lang);
         setResult(Activity.RESULT_OK,returnIntent);
+        Log.d("Return Intent", "Return intent: " + lat +
+            " ," + lang + ", " + string);
 
         this.finish(); //kill activity
     }
