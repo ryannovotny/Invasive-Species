@@ -1,43 +1,88 @@
 package com.florafinder.invasive_species;
 
-/**
- * Created by lando on 11/12/2016.
- */
-
-import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecyclerViewActivity extends FragmentActivity {
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Activities that contain this fragment must implement the
+ * {@link SpeciesFragment.OnFragmentInteractionListener} interface
+ * to handle interaction events.
+ * Use the {@link SpeciesFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class SpeciesFragment extends Fragment {
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
 
     private List<Species> species;
-    private RecyclerView rv;
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+    private OnFragmentInteractionListener mListener;
+
+    public SpeciesFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment SpeciesFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static SpeciesFragment newInstance(String param1, String param2) {
+        SpeciesFragment fragment = new SpeciesFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.recyclerview_activity);
+    }
 
-        rv=(RecyclerView)findViewById(R.id.rv);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
 
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        rv.setLayoutManager(llm);
+        // Inflate the layout for this fragment
+        View rootView = inflater.inflate(R.layout.fragment_species, container, false);
+        RecyclerView rv = (RecyclerView) rootView.findViewById(R.id.rv);
         rv.setHasFixedSize(true);
 
         initializeData();
-        initializeAdapter();
+
+        RVAdapter adapter = new RVAdapter(species);
+        rv.setAdapter(adapter);
+
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        rv.setLayoutManager(llm);
+
+        return rootView;
     }
 
     private void initializeData(){
@@ -57,8 +102,8 @@ public class RecyclerViewActivity extends FragmentActivity {
 
                 " - Non-chemical control options for cut stumps include covering the cut stump with a tin can or black plastic (such as a \"Buckthorn Baggie\") to prevent re-sprouting. After cutting the tree, apply the can or plastic over the cut stump and root flare.  Use nails to affix the can or a tie to affix the black plastic. Leave in place for one to two years.\n--------------------\n" +
 
-                        " - Chemical control options for cut stumps include treating the stump immediately after cutting (within 2 hours) with a herbicide containing triclopyr (Garlon 3A/Vastlan, Garlon 4, or other brush killers with triclopyr) or glyphosate (Roundup) to prevent re-sprouting. Always follow label instructions for herbicides."
-        , "\n To learn more, visit the Minnesota DNR's page at this link https://goo.gl/RCMwhG"));
+                " - Chemical control options for cut stumps include treating the stump immediately after cutting (within 2 hours) with a herbicide containing triclopyr (Garlon 3A/Vastlan, Garlon 4, or other brush killers with triclopyr) or glyphosate (Roundup) to prevent re-sprouting. Always follow label instructions for herbicides."
+                , "\n To learn more, visit the Minnesota DNR's page at this link https://goo.gl/RCMwhG"));
         species.add(new Species("Japanese Knotweed", "Fallopia japonica, synonym Reynoutria japonica, is a large, herbaceous perennial plant of the knotweed and buckwheat family Polygonaceae. It is native to East Asia in Japan, China and Korea.", R.drawable.japan, "-----------------------------------------\nControl Methods\n" +
                 "\n" +
                 "Mechanical" +
@@ -113,8 +158,42 @@ public class RecyclerViewActivity extends FragmentActivity {
 
     }
 
-    private void initializeAdapter(){
-        RVAdapter adapter = new RVAdapter(species);
-        rv.setAdapter(adapter);
+    // TODO: Rename method, update argument and hook method into UI event
+    public void onButtonPressed(Uri uri) {
+        if (mListener != null) {
+            mListener.onFragmentInteraction(uri);
+        }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
+
+    /**
+     * This interface must be implemented by activities that contain this
+     * fragment to allow an interaction in this fragment to be communicated
+     * to the activity and potentially other fragments contained in that
+     * activity.
+     * <p>
+     * See the Android Training lesson <a href=
+     * "http://developer.android.com/training/basics/fragments/communicating.html"
+     * >Communicating with Other Fragments</a> for more information.
+     */
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }
