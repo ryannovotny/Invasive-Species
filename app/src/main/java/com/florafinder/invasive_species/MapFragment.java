@@ -51,7 +51,7 @@ import java.util.concurrent.ExecutionException;
 public class MapFragment extends Fragment implements OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, GoogleMap.OnMapLongClickListener {
+        LocationListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -173,30 +173,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         super.onStop();
         Log.d("Lifecycle","Map activity stopped");
         LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
-    }
-
-    //make the circle be able to pop up when user clicks on the map
-    @Override
-    public void onMapLongClick(LatLng point) {
-        String s = point.toString();
-        String[] latLng = s.substring(10, s.length() - 1).split(",");
-        String sLat = latLng[0];
-        String sLng = latLng[1];
-        double dLat = Double.parseDouble(sLat);
-        double dLng = Double.parseDouble(sLng);
-        PolygonOptions squareOpt = new PolygonOptions()
-                .add(point, new LatLng(dLat,dLng+.001), new LatLng(dLat+.0005,dLng+.001), new LatLng(dLat+.0005,dLng)) //set size
-                .fillColor(0x40ff0000)  //semi-transparent
-                .strokeColor(Color.BLUE)
-                .strokeWidth(5);
-        MarkerOptions markerOptions = new MarkerOptions()
-                .position(new LatLng(dLat+.00025,dLng+.0005)) // set marker at the center of the circle
-                .title("Invasive Species")
-                .snippet(dLat+"/"+dLng)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));//marker color
-        mSquare = mMap.addPolygon(squareOpt);
-        mMarker = mMap.addMarker(markerOptions);
-
     }
 
     /**
@@ -503,46 +479,3 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         void onFragmentInteraction(Uri uri);
     }
 }
-
-    /**
-     * Pushes or updates a polygon to map
-     * @param dLat
-     * @param dLng
-     */
-    private void pushPolygon(double dLat, double dLng, ArrayList<String> species) {
-
-        PolygonOptions squareOpt = new PolygonOptions()
-                .add(new LatLng(dLat, dLng),
-                        new LatLng(dLat, dLng + .001),
-                        new LatLng(dLat + .0005, dLng + .001),
-                        new LatLng(dLat + .0005, dLng)) //set size
-                .strokeColor(Color.BLUE)
-                .strokeWidth(1)
-                .clickable(true);
-
-        if(species.size() == 0)
-            squareOpt.fillColor(0x00000000);// semi-transparent
-        else
-            squareOpt.fillColor(0x400ff000);// color green
-
-        //make data to track
-        InvPolygon track = new InvPolygon(dLat, dLng);
-        for(String string: species) {
-            track.addSpecies(string);
-        }
-
-        polygonList.add(mMap.addPolygon(squareOpt));
-        invPolygonList.add(track);
-    }
-
-    /**
-     * Removes all polygons from the map
-     */
-    private void clearPolygons(){
-        for(Polygon polygon: polygonList){
-            polygon.remove();
-        }
-        invPolygonList.clear();
-    }
-}
-
