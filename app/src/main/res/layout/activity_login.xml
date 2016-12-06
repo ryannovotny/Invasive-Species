@@ -132,6 +132,7 @@
 
                     <EditText
                         android:id="@+id/new_email"
+                        android:inputType="textEmailAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/prompt_email"
