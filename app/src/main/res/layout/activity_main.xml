@@ -5,7 +5,8 @@
     tools:context="com.florafinder.invasive_species.MainActivity"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#E0E0E0">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
