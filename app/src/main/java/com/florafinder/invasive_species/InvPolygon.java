@@ -32,7 +32,7 @@ public class InvPolygon{
      */
     public void addSpecies(String name) {
 
-        if(speciesList.contains(name)){
+        if(!speciesList.contains(name)){
             speciesList.add(name);
         }
     }
