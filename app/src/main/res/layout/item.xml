@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#E0E0E0"
@@ -41,29 +41,21 @@
                 android:paddingEnd="16dp"
                 android:paddingBottom="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:id="@+id/species_name"
+                    android:textSize="24sp"
+                    android:textColor="@color/speciesTextColor" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/species_name"
-                        android:textSize="24sp"
-                        android:textColor="@color/speciesTextColor"
-                        android:paddingEnd="4dp"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/species_scientific"
-                        android:textSize="14sp"
-                        android:textColor="@color/speciesTextColor"
-                        android:textStyle="italic"
-                        android:layout_gravity="center"/>
-
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/species_scientific"
+                    android:textSize="14sp"
+                    android:textColor="@color/speciesLatinColor"
+                    android:textStyle="italic"
+                    android:paddingBottom="16dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -78,4 +70,4 @@
 
     </android.support.v7.widget.CardView>
 
-</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>
