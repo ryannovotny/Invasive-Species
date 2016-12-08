@@ -78,7 +78,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     private final static String SERVER_IP = "https://lempo.d.umn.edu";
     private final static String SERVER_PORT = ":4097";
     private final static String MAP_DIRECTORY = "/mapdata";
-    private final static String USER_DIRECTORY = "/userdata";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -161,7 +160,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onPause(){
         super.onPause();
         Log.d("Lifecycle","Map activity paused");
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
     /**
@@ -171,7 +170,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onStop(){
         super.onStop();
         Log.d("Lifecycle","Map activity stopped");
-        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
+        //LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
 
     /**
@@ -209,7 +208,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
      * Upon connection to location services
      * Sets up Location Request Object
      * Zoom to the user's current location
-     * @param bundle
+     * @param bundle Bundle
      */
     @Override
     public void onConnected(@Nullable Bundle bundle) {
@@ -259,12 +258,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
      * Handles permission requests during runtime.
      * This is called when the location permissions aren't already registered as defined on runtime,
      * meaning the user must enter them
-     * @param requestCode
-     * @param permissions
-     * @param grantResults
+     * @param requestCode Request Code
+     * @param permissions Needed Permissions
+     * @param grantResults Results
      */
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults){
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults){
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Log.e("Req Code", "" + requestCode);
         if (requestCode == REQUEST_CODE_PERMISSION) {
@@ -283,9 +282,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     /**
      * Handles returning data from intent sent to specieslist
-     * @param requestCode
-     * @param resultCode
-     * @param data
+     * @param requestCode Request Code
+     * @param resultCode Result Code
+     * @param data Data
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode,
@@ -428,8 +427,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     /**
      * Pushes or updates a polygon to map
-     * @param dLat
-     * @param dLng
+     * @param dLat Latitude
+     * @param dLng Longitude
      */
     private void pushPolygon(double dLat, double dLng, ArrayList<String> species) {
 
@@ -469,7 +468,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     /**
      * Posts a tile to the server to update
-     * @param tile
+     * @param tile Tile
      */
     private void postTile(InvPolygon tile){
 
