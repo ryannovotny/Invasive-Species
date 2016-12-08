@@ -52,10 +52,6 @@ public class LoginActivity extends AppCompatActivity{
         setContentView(R.layout.activity_login);
         // Set up the login form.
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_login);
-        toolbar.setTitle(R.string.app_name);
-        setSupportActionBar(toolbar);
-
         initViews();
     }
 
