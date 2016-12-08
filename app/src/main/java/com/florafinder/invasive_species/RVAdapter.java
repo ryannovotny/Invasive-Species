@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,7 +28,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
         TextView speciesRemove;
         TextView Link;
 
-        PersonViewHolder(View itemView) {
+        PersonViewHolder(final View itemView) {
             super(itemView);
             cv = (CardView)itemView.findViewById(R.id.cv);
 
@@ -37,6 +38,14 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
             speciesPhoto = (ImageView)itemView.findViewById(R.id.species_photo);
             //speciesRemove= (TextView)itemView.findViewById(R.id.species_remove);
             //Link= (TextView)itemView.findViewById(R.id.species_link);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast toast = Toast.makeText(itemView.getContext(), "Clicked", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            });
         }
     }
 
