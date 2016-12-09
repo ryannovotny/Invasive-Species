@@ -1,10 +1,5 @@
 package com.florafinder.invasive_species;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.support.constraint.solver.SolverVariable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,7 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
+public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
     static class PersonViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,8 +20,8 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
         TextView speciesScientific;
         TextView speciesDescription;
         ImageView speciesPhoto;
-        TextView speciesRemove;
-        TextView Link;
+        //TextView speciesRemove;
+        //TextView Link;
 
         PersonViewHolder(final View itemView) {
             super(itemView);
@@ -49,7 +44,7 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
         }
     }
 
-    List<Species> species;
+    private List<Species> species;
 
     RVAdapter(List<Species> species){
         this.species = species;
@@ -63,13 +58,12 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
     @Override
     public PersonViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item, viewGroup, false);
-        PersonViewHolder pvh = new PersonViewHolder(v);
-        return pvh;
+        return new PersonViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(PersonViewHolder personViewHolder, int i) {
-        personViewHolder.speciesName.setText(species.get(i).name);;
+        personViewHolder.speciesName.setText(species.get(i).name);
         personViewHolder.speciesScientific.setText(species.get(i).scienceName);
         personViewHolder.speciesDescription.setText(species.get(i).description);
         personViewHolder.speciesPhoto.setImageResource(species.get(i).photoId);
