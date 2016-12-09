@@ -11,7 +11,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
-public class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
+class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
 
     static class PersonViewHolder extends RecyclerView.ViewHolder {
 
