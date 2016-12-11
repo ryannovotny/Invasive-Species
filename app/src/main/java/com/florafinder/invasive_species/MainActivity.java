@@ -9,9 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatCallback;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.view.ActionMode;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 public class MainActivity extends FragmentActivity implements
@@ -23,13 +21,7 @@ public class MainActivity extends FragmentActivity implements
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        AppCompatDelegate delegate = AppCompatDelegate.create(this, this);
-        delegate.onCreate(savedInstanceState);
-        delegate.setContentView(R.layout.activity_main);
-
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        delegate.setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_main);
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -39,15 +31,12 @@ public class MainActivity extends FragmentActivity implements
                 switch (id){
                     case R.id.bottom_nav_map:
                         fragment = new MapFragment();
-                        toolbar.setTitle(R.string.map);
                         break;
                     case R.id.bottom_nav_species:
                         fragment = new SpeciesFragment();
-                        toolbar.setTitle(R.string.species);
                         break;
                     case R.id.bottom_nav_settings:
                         fragment = new SettingsFragment();
-                        toolbar.setTitle(R.string.settings);
                         break;
                 }
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -58,7 +47,6 @@ public class MainActivity extends FragmentActivity implements
         });
 
         fragment = new MapFragment();
-        toolbar.setTitle(R.string.map);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_container, fragment).commit();
     }
