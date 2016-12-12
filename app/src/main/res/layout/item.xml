@@ -32,13 +32,15 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    style="@style/MaterialAnimations"
                     android:id="@+id/species_photo"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:layout_alignParentTop="true"
                     app:layout_widthPercent="100%"
                     app:layout_aspectRatio="178%"
-                    android:contentDescription="@string/species" />
+                    android:contentDescription="@string/species"
+                    android:transitionName="@string/imageview"/>
 
             </android.support.percent.PercentRelativeLayout>
 
