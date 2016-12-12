@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -67,7 +68,7 @@ public class SpeciesExpandedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_species_expanded, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_species_expanded, container, false);
 
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_species_expanded);
         toolbar.setTitle(R.string.buckthorn);
@@ -76,8 +77,8 @@ public class SpeciesExpandedFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(getContext(), "This will add the current species to the map", Toast.LENGTH_SHORT);
-                toast.show();
+                Snackbar snackBar = Snackbar.make(rootView.findViewById(R.id.expanded_coordinator_layout), "This will be add the species to the map", Snackbar.LENGTH_SHORT);
+                snackBar.show();
             }
         });
 
