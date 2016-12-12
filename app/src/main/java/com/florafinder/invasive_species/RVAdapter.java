@@ -20,8 +20,6 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
         TextView speciesScientific;
         TextView speciesDescription;
         ImageView speciesPhoto;
-        //TextView speciesRemove;
-        //TextView Link;
 
         PersonViewHolder(final View itemView) {
             super(itemView);
@@ -31,14 +29,11 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
             speciesScientific = (TextView) itemView.findViewById(R.id.species_scientific);
             speciesDescription = (TextView)itemView.findViewById(R.id.species_description);
             speciesPhoto = (ImageView)itemView.findViewById(R.id.species_photo);
-            //speciesRemove= (TextView)itemView.findViewById(R.id.species_remove);
-            //Link= (TextView)itemView.findViewById(R.id.species_link);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast toast = Toast.makeText(itemView.getContext(), "Clicked", Toast.LENGTH_SHORT);
-                    toast.show();
+
                 }
             });
         }
@@ -67,8 +62,6 @@ class RVAdapter extends RecyclerView.Adapter<RVAdapter.PersonViewHolder> {
         personViewHolder.speciesScientific.setText(species.get(i).scienceName);
         personViewHolder.speciesDescription.setText(species.get(i).description);
         personViewHolder.speciesPhoto.setImageResource(species.get(i).photoId);
-        //personViewHolder.speciesRemove.setText(species.get(i).remove);
-        //personViewHolder.Link.setText(species.get(i).link);
     }
 
     @Override
