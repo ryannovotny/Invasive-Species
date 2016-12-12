@@ -30,6 +30,7 @@
 
     <!-- BEGIN MISCELLANEOUS STRINGS-->
     <string name="control_methods">Control Methods</string>
+    <string name="imageview">imageview</string>
 
     <!-- BEGIN TEMPORARY STRINGS-->
     <string name="small_plants">Small Plants</string>
