@@ -4,30 +4,37 @@
     android:layout_height="match_parent"
     tools:context="com.florafinder.invasive_species.MapFragment">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark"
-        android:background="@color/colorPrimary"
-        android:elevation="8dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/text_toolbar"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/map"
-            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
+            android:theme="@style/ThemeOverlay.AppCompat.Dark"
+            android:background="@color/colorPrimary"
+            android:elevation="8dp">
 
-    </android.support.v7.widget.Toolbar>
+            <TextView
+                android:id="@+id/text_toolbar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/map"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title" />
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/map"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.florafinder.invasive_species.MapFragment" />
+        </android.support.v7.widget.Toolbar>
+
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            tools:context="com.florafinder.invasive_species.MapFragment" />
+
+    </RelativeLayout>
 
 </FrameLayout>
