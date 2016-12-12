@@ -12,8 +12,6 @@ import android.support.v7.app.AppCompatCallback;
 import android.support.v7.view.ActionMode;
 import android.view.MenuItem;
 
-import layout.SpeciesExpandedFragment;
-
 public class MainActivity extends FragmentActivity implements
         MapFragment.OnFragmentInteractionListener, SpeciesFragment.OnFragmentInteractionListener,
         SettingsFragment.OnFragmentInteractionListener,
