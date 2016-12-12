@@ -23,34 +23,31 @@
     <string name="action_sign_up">Sign Up</string>
     <string name="action_sign_up_short">SignUp</string>
 
-    <!-- BEGIN NAVIGATION DRAWER-->
+    <!-- BEGIN BOTTOM NAVIGATION DRAWER-->
     <string name="map">Map</string>
     <string name="species">Species</string>
     <string name="settings">Settings</string>
+
+    <!-- BEGIN MISCELLANEOUS STRINGS-->
+    <string name="control_methods">Control Methods</string>
+
+    <!-- BEGIN TEMPORARY STRINGS-->
+    <string name="small_plants">Small Plants</string>
+    <string name="large_plants">Large Plants</string>
 
     <!-- BEGIN SPECIES DATA -->
     <string name="buckthorn">Buckthorn</string>
     <string name="buckthorn_scientific">(Rhamnus Cathartica)</string>
     <string name="buck_description">A shrub or small tree of the Buckthorn family, typically bearing thorns. Some kinds yield dyes, and others have been used medicinally.</string>
-    <string name="buck_remove">"-----------------------------------------\nControl Methods\n" +
-                "\n" +
-                "Pulling individual plants" +
-                "\n" +
-                " - If less than 3/8 inch in diameter, plants can be removed by hand. Small seedlings can be pulled and will not re-sprout. If greater than 3/8 inch, use a hand tool that pulls the shrub out, such as an \"Uprooter\" or \"Root Talon\". Removing by hand is easier if the soil is moist. Before you pull or dig buckthorn out of your soil, Contact Gopher State One Call to ensure there are no buried utilities in the area. Hand-pulling tools can cause soil disturbance so work to minimize soil disturbance and tap soil and plants back into place after pulling plants. Disturbed soil may result in increased seed germination." +
-                "\n" +
-                "\nIf pulling individual plants is impractical" +
-                "\n" +
-                " - Spray foliage of short buckthorn or seedlings with a herbicide. Glyphosate (one brand name is Roundup) will kill all actively growing vegetation on which it is sprayed. Triclopyr will kill broadleaf plants and will not harm grasses when applied properly. If you wish to use a cutting method, see the section below." +
-                "\n" +
-                "\nControlling large buckthorn\n" +
-                " - Buckthorn plants that are two inches in diameter or larger are best controlled by cutting the stem at the soil surface and then covering or treating the stump to prevent re-sprouting. Cutting can be effectively done with hand tools (for a few plants), chain saws or brush cutters.\n--------------------\n" +
-
-                " - Non-chemical control options for cut stumps include covering the cut stump with a tin can or black plastic (such as a \"Buckthorn Baggie\") to prevent re-sprouting. After cutting the tree, apply the can or plastic over the cut stump and root flare.  Use nails to affix the can or a tie to affix the black plastic. Leave in place for one to two years.\n--------------------\n" +
-
-                " - Chemical control options for cut stumps include treating the stump immediately after cutting (within 2 hours) with a herbicide containing triclopyr (Garlon 3A/Vastlan, Garlon 4, or other brush killers with triclopyr) or glyphosate (Roundup) to prevent re-sprouting. Always follow label instructions for herbicides."
+    <string name="buck_remove_small">If less than 3/8 inch in diameter, plants can be removed by hand. Small seedlings can be pulled and will not re-sprout. If greater than 3/8 inch, use a hand tool that pulls the shrub out, such as an \"Uprooter\" or \"Root Talon\". Removing by hand is easier if the soil is moist. Before you pull or dig buckthorn out of your soil, Contact Gopher State One Call to ensure there are no buried utilities in the area. Hand-pulling tools can cause soil disturbance so work to minimize soil disturbance and tap soil and plants back into place after pulling plants. Disturbed soil may result in increased seed germination."
+                "\n"If pulling individual plants is impractical, spray foliage of short buckthorn or seedlings with a herbicide. Glyphosate (one brand name is Roundup) will kill all actively growing vegetation on which it is sprayed. Triclopyr will kill broadleaf plants and will not harm grasses when applied properly."
+    </string>
+    <string name="buck_remove_large">Buckthorn plants that are two inches in diameter or larger are best controlled by cutting the stem at the soil surface and then covering or treating the stump to prevent re-sprouting. Cutting can be effectively done with hand tools (for a few plants), chain saws or brush cutters."
+                "\nNon-chemical control options for cut stumps include covering the cut stump with a tin can or black plastic (such as a \"Buckthorn Baggie\") to prevent re-sprouting. After cutting the tree, apply the can or plastic over the cut stump and root flare.  Use nails to affix the can or a tie to affix the black plastic. Leave in place for one to two years."
+                "\n"Chemical control options for cut stumps include treating the stump immediately after cutting (within 2 hours) with a herbicide containing triclopyr (Garlon 3A/Vastlan, Garlon 4, or other brush killers with triclopyr) or glyphosate (Roundup) to prevent re-sprouting. Always follow label instructions for herbicides."
     </string>
     <string name="buck_link">To learn more, visit the Minnesota DNR\'s page at this link https://goo.gl/RCMwhG</string>
-    
+
     <string name="knotweed">Japanese Knotweed</string>
     <string name="knotweed_scientific">(Fallopia Japonica)</string>
     <string name="knot_description">A large, herbaceous perennial plant of the Knotweed and Buckwheat family "Polygonaceae." It is native to East Asia in Japan, China and Korea.</string>
