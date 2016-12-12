@@ -86,11 +86,11 @@ public class SpeciesFragment extends Fragment {
 
     private void initializeData(){
         species = new ArrayList<>();
-        species.add(new Species(R.string.buckthorn, R.string.buckthorn_scientific, R.string.buck_description, R.drawable.buckthorn, R.string.buck_remove, R.string.buck_link));
-        species.add(new Species(R.string.knotweed, R.string.knotweed_scientific, R.string.knot_description, R.drawable.japan,R.string.knot_remove,R.string.knot_link));
-        species.add(new Species(R.string.tansy, R.string.tansy_scientific, R.string.tansy_description, R.drawable.tansy, R.string.tansy_remove, R.string.tansy_link));
-        species.add(new Species(R.string.garlic, R.string.garlic_scientific, R.string.garlic_description, R.drawable.garlic, R.string.garlic_remove, R.string.garlic_link));
-        species.add(new Species(R.string.honeysuckle, R.string.honeysuckle_scientific, R.string.honeysuckle_description, R.drawable.honey, R.string.tansy_remove, R.string.garlic_link));
+        species.add(new Species(R.string.buckthorn, R.string.buckthorn_scientific, R.string.buck_description, R.drawable.buckthorn));
+        species.add(new Species(R.string.knotweed, R.string.knotweed_scientific, R.string.knot_description, R.drawable.japan));
+        species.add(new Species(R.string.tansy, R.string.tansy_scientific, R.string.tansy_description, R.drawable.tansy));
+        species.add(new Species(R.string.garlic, R.string.garlic_scientific, R.string.garlic_description, R.drawable.garlic));
+        species.add(new Species(R.string.honeysuckle, R.string.honeysuckle_scientific, R.string.honeysuckle_description, R.drawable.honey));
 
     }
 
