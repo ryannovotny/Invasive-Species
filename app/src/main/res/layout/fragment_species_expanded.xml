@@ -40,7 +40,7 @@
                     android:transitionName="@string/imageview"/>
 
                 <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
+                    android:id="@+id/toolbar_species_expanded"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                      />
@@ -130,7 +130,7 @@
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/species_expanded_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
