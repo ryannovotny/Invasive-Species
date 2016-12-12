@@ -1,12 +1,16 @@
 package com.florafinder.invasive_species;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +67,21 @@ public class SpeciesExpandedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_species_expanded, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_species_expanded, container, false);
+
+        Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar_species_expanded);
+        toolbar.setTitle(R.string.buckthorn);
+
+        FloatingActionButton floatingActionButton = (FloatingActionButton) rootView.findViewById(R.id.species_expanded_fab);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(getContext(), "This will add the current species to the map", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
