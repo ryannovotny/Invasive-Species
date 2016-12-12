@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimaryLight">
 
     <!-- Login progress -->
     <ProgressBar
@@ -79,7 +79,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold"
-                android:layout_weight="0.63" />
+                android:layout_weight="0.63"
+                android:background="@color/colorPrimary"/>
 
             <!--START SIGN-UP -->
             <TextView
@@ -162,7 +163,8 @@
                 android:layout_marginTop="16dp"
                 android:text="@string/action_sign_up"
                 android:textStyle="bold"
-                android:layout_weight="0.63" />
+                android:layout_weight="0.63"
+                android:background="@color/colorPrimary"/>
 
         </LinearLayout>
     </ScrollView>
