@@ -1,8 +1,6 @@
 # Invasive-Species
 ### Platform:
 Android
-### Related Repos
-Node Server: https://github.umn.edu/fitzs045/InvasiveNodeServer
 ### Authors:
 * Edward FitzSimons
 * Landon Nelson
